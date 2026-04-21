@@ -275,39 +275,49 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   .blog-grid{grid-template-columns:1fr 1fr}
   .blog-card:nth-child(1){grid-column:1/-1}
   .contact-grid{gap:3rem}
+  .bmi-inner{grid-template-columns:1fr;gap:3rem}
+  #bmi-tanitim{padding:5rem 5%}
 }
 
 @media(max-width:768px){
-  /* Hide desktop cursor on mobile */
   .cursor-dot,.cursor-ring{display:none}
   body{cursor:auto}
 
-  /* Nav mobile */
+  /* Nav */
   .nav-links,.nav-cta{display:none}
   .hamburger{display:flex}
+  .logo{font-size:1.2rem}
 
   /* Hero */
   .hero-line,.hero-numbers,.scroll-indicator{display:none}
   #hero{padding:7rem 5% 4rem;min-height:90vh}
-  h1.hero-title{font-size:clamp(2.6rem,10vw,4rem)}
+  h1.hero-title{font-size:clamp(2.4rem,9vw,3.8rem)}
   .hero-desc{font-size:.88rem;max-width:100%}
-  .hero-actions{flex-direction:column;align-items:flex-start;gap:1.2rem}
-  .btn-sage{width:100%;text-align:center;padding:.9rem 1.5rem}
+  .hero-actions{flex-direction:column;align-items:stretch;gap:1rem}
+  .btn-sage,.btn-ghost{width:100%;text-align:center;padding:1rem 1.5rem;justify-content:center}
 
   /* About */
   #hakkimda{padding:5rem 5%}
   .about-grid{grid-template-columns:1fr;gap:3rem}
   .about-right{padding-top:0}
-  .about-img-frame{aspect-ratio:4/3;max-width:480px;margin:0 auto 2rem}
+  .about-img-frame{aspect-ratio:4/3;max-width:100%;margin:0 auto 2rem}
   .about-decor,.about-decor2{display:none}
 
   /* Services */
   #hizmetler{padding:5rem 5%}
-  .services-top{flex-direction:column;align-items:flex-start;gap:1.5rem;margin-bottom:3rem}
+  .services-top{flex-direction:column;align-items:flex-start;gap:1.5rem;margin-bottom:2.5rem}
   .services-top p{max-width:100%}
-  .service-row{grid-template-columns:50px 1fr auto;gap:1.2rem;padding:1.5rem 0}
-  .srv-name{font-size:1.3rem}
+  .service-row{grid-template-columns:40px 1fr auto;gap:1rem;padding:1.5rem 0}
+  .srv-num{font-size:.9rem}
+  .srv-name{font-size:1.2rem}
   .srv-desc{font-size:.8rem}
+  .srv-arrow{width:36px;height:36px;flex-shrink:0}
+
+  /* VKI */
+  #bmi-tanitim{padding:4rem 5%}
+  .bmi-inner{grid-template-columns:1fr;gap:2.5rem}
+  .bmi-left p{max-width:100%}
+  .bmi-left a{width:100%;justify-content:center}
 
   /* Referanslar */
   #referanslar{padding:5rem 5%}
@@ -320,6 +330,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   .blog-grid{grid-template-columns:1fr;gap:1.2rem}
   .blog-card:nth-child(1) .blog-thumb{height:200px}
   .blog-thumb{height:180px}
+  .blog-card img{width:100%;height:180px;object-fit:cover}
 
   /* Blog modal */
   .blog-modal-overlay{padding:1rem;align-items:flex-end}
@@ -333,23 +344,29 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   .contact-grid{grid-template-columns:1fr;gap:2.5rem}
   .form-wrap{padding:2rem 1.5rem}
   .form-row{grid-template-columns:1fr}
+  .fg input,.fg select,.fg textarea{font-size:16px}
 
   /* Footer */
   footer{grid-template-columns:1fr;text-align:center;gap:1.5rem;padding:3rem 5%}
-  .f-links{justify-content:center}
+  .f-links{justify-content:center;flex-wrap:wrap;gap:1.2rem}
   .f-copy{text-align:center}
 
-  /* Nav logo mobile */
-  .logo{font-size:1.2rem}
+  /* WhatsApp float */
+  .wa-wrap{bottom:1.2rem;right:1.2rem}
+  .wa-bubble{font-size:.72rem;padding:.55rem .85rem;white-space:normal;max-width:200px;text-align:right}
 }
 
 @media(max-width:480px){
-  nav{padding:1.2rem 5%}
-  .logo{font-size:1.1rem}
-  h1.hero-title{font-size:clamp(2.2rem,9vw,3rem)}
-  .about-left h2{font-size:2rem}
-  #hakkimda,.#hizmetler,#referanslar,#blog,#randevu{padding:4rem 4%}
-  .srv-arrow{width:36px;height:36px}
+  nav{padding:1rem 4%}
+  .logo{font-size:1.05rem}
+  h1.hero-title{font-size:clamp(2rem,9vw,2.8rem)}
+  #hakkimda,#hizmetler,#referanslar,#blog,#randevu,#bmi-tanitim{padding:3.5rem 4%}
+  .about-left h2{font-size:1.8rem}
+  .services-top h2{font-size:2rem}
+  .service-row{grid-template-columns:34px 1fr auto;gap:.8rem}
+  .wa-float{width:50px;height:50px}
+  .wa-float svg{width:24px;height:24px}
+  .wa-bubble{display:none}
 }
 </style>
 </head>
