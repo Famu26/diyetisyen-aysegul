@@ -631,7 +631,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
     <div class="contact-info reveal-left">
       <div class="c-item">
         <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-        <div><div class="c-label">Adres</div><div class="c-val">Mersin, Türkiye<br>—</div></div>
+        <div><div class="c-label">Adres</div><div class="c-val">Hilal Apt, Akdeniz, Talat Göktepe Cd.<br>No:2/39 Kat:1, 33730 Erdemli/Mersin</div></div>
       </div>
       <div class="c-item">
         <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12 19.79 19.79 0 011.61 3.5 2 2 0 013.6 1.32h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 9a16 16 0 006.29 6.29l1.75-1.75a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
@@ -853,12 +853,16 @@ function submitForm(){
   const hizmet=document.querySelector('select').value;
   const mesaj=document.querySelector('textarea').value.trim();
   if(!ad||!tel){alert('Lütfen en az adınızı ve telefon numaranızı girin.');return;}
-  const waNum='905XXXXXXXXX';
+  const waNum='905392705074';
   const text=`Merhaba Dyt. Ayşegül Hanım,%0A%0A*Randevu Talebi*%0A%0AAdı Soyadı: ${encodeURIComponent(ad+' '+soyad)}%0ATelefon: ${encodeURIComponent(tel)}%0AHizmet: ${encodeURIComponent(hizmet)}%0A${mesaj?'Notlar: '+encodeURIComponent(mesaj):''}%0A%0ASiteden gönderildi.`;
   const b=document.getElementById('fBtn');
   b.textContent='WhatsApp\'a Yönlendiriliyorsunuz...';b.classList.add('sent');b.disabled=true;
   setTimeout(()=>{
-    window.open(`https://wa.me/${waNum}?text=${text}`,'_blank');
+    const isMobile=/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const waUrl=isMobile
+      ?`whatsapp://send?phone=${waNum}&text=${text}`
+      :`https://web.whatsapp.com/send?phone=${waNum}&text=${text}`;
+    window.open(waUrl,'_blank');
     b.textContent='Gönder — Randevu Al';b.classList.remove('sent');b.disabled=false;
   },800);
 }
