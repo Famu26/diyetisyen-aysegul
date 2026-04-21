@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diyetisyen Ayşegül Tekeli</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#6B8F64;--sage-light:#9BBF95;--sage-pale:#DCE9DA;
+  --beige:#E8DDD0;--beige-light:#FAF8F5;--beige-mid:#F0E9E0;
+  --espresso:#2C1F14;--espresso-mid:#5A3E2B;--espresso-light:#8B6E56;
+  --white:#fff;--off:#FDFCFA;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--beige-light);color:var(--espresso);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor-dot{position:fixed;width:8px;height:8px;background:var(--sage);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s,width .25s,height .25s,background .25s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:2px solid var(--sage);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .3s,height .3s,border-color .3s,background .3s}
+.cursor-ring.hovered{width:64px;height:64px;border-color:var(--sage);background:rgba(107,143,100,.1)}
+.cursor-dot.hovered{width:4px;height:4px;background:var(--sage-dark)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.6rem 6%;display:flex;align-items:center;justify-content:space-between;transition:all .5s}
+nav.scrolled{background:rgba(250,248,245,.88);backdrop-filter:blur(20px);padding:1rem 6%;box-shadow:0 1px 0 rgba(60,42,30,.08)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;letter-spacing:.04em;color:var(--espresso);text-decoration:none;line-height:1.2}
+.nav-r{display:flex;align-items:center;gap:2.5rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;transition:color .3s;font-weight:400}
+.nav-links a:hover{color:var(--sage)}
+.nav-cta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--espresso);color:var(--white);padding:.6rem 1.4rem;border-radius:2px;text-decoration:none;font-weight:400;transition:background .3s}
+.nav-cta:hover{background:var(--sage)}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;z-index:600}
+.hamburger span{width:24px;height:2px;background:var(--espresso);border-radius:2px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(250,248,245,.97);backdrop-filter:blur(20px);z-index:550;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--espresso);text-decoration:none;letter-spacing:.04em;transition:color .3s}
+.mobile-menu a:hover{color:var(--sage)}
+.mobile-menu .m-cta{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sage);color:var(--white);padding:.8rem 2rem;border-radius:2px;font-family:'Inter',sans-serif;font-size:.76rem}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:8rem 6% 5rem}
+.hero-mesh{position:absolute;inset:0;z-index:0}
+.hero-mesh canvas{width:100%;height:100%;display:block}
+.hero-line{position:absolute;right:0;top:0;bottom:0;width:45%;background:var(--beige-mid);clip-path:polygon(12% 0,100% 0,100% 100%,0% 100%);z-index:0}
+.hero-content{position:relative;z-index:1;max-width:680px}
+.hero-eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem}
+.eyebrow-line{width:32px;height:1px;background:var(--sage)}
+.eyebrow-text{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--sage);font-weight:500}
+h1.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,6vw,5.5rem);font-weight:300;line-height:1.08;color:var(--espresso);margin-bottom:2rem;overflow:hidden}
+.hero-title .line{display:block;transform:translateY(110%);animation:lineIn .9s cubic-bezier(.16,1,.3,1) forwards}
+.hero-title .line:nth-child(2){animation-delay:.1s}
+.hero-title .line:nth-child(3){animation-delay:.2s}
+.hero-title em{font-style:italic;color:var(--sage)}
+@keyframes lineIn{to{transform:translateY(0)}}
+.hero-desc{font-size:.95rem;line-height:1.85;color:var(--espresso-light);max-width:420px;margin-bottom:3rem;font-weight:300;opacity:0;animation:fadeUp .8s .4s ease forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-actions{display:flex;align-items:center;gap:2rem;opacity:0;animation:fadeUp .8s .55s ease forwards;flex-wrap:wrap}
+.btn-sage{background:var(--sage);color:var(--white);padding:.9rem 2.2rem;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .3s,transform .2s;border-radius:2px}
+.btn-sage:hover{background:var(--espresso);transform:translateY(-2px)}
+.btn-ghost{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;display:flex;align-items:center;gap:.6rem;transition:gap .3s,color .3s}
+.btn-ghost:hover{gap:1rem;color:var(--sage)}
+.btn-ghost svg{transition:transform .3s}
+.btn-ghost:hover svg{transform:translateX(4px)}
+.hero-numbers{position:absolute;right:6%;bottom:8%;z-index:1;display:flex;flex-direction:column;gap:2rem;opacity:0;animation:fadeUp .8s .7s ease forwards}
+.h-num{text-align:right}
+.h-num-val{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;line-height:1;color:var(--espresso)}
+.h-num-label{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--espresso-light);margin-top:.2rem}
+.h-num-divider{width:100%;height:1px;background:rgba(60,42,30,.12);margin:-.5rem 0}
+.scroll-indicator{position:absolute;left:6%;bottom:3rem;z-index:1;display:flex;align-items:center;gap:.8rem;opacity:0;animation:fadeUp .8s .8s ease forwards}
+.scroll-line{width:1px;height:48px;background:var(--espresso-light);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:var(--sage);animation:scrollAnim 2s ease infinite}
+@keyframes scrollAnim{to{top:200%}}
+.scroll-text{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--espresso-light)}
+
+/* MARQUEE */
+.marquee-wrap{background:var(--espresso);padding:.9rem 0;overflow:hidden;position:relative}
+.marquee-track{display:flex;gap:0;white-space:nowrap;animation:marquee 22s linear infinite}
+.marquee-item{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:rgba(232,221,208,.5);padding:0 3rem;letter-spacing:.04em;flex-shrink:0}
+.marquee-dot{color:var(--sage);font-style:normal}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* HAKKIMDA */
+#hakkimda{padding:9rem 6%;background:var(--off);position:relative;overflow:hidden}
+.about-decor{position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(107,143,100,.15)}
+.about-decor2{position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;border:1px solid rgba(107,143,100,.1)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start;max-width:1100px;margin:0 auto}
+.about-left .section-eyebrow{margin-bottom:1.5rem}
+.about-left h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.6rem);font-weight:300;line-height:1.15;margin-bottom:2.5rem;color:var(--espresso)}
+.about-left h2 em{font-style:italic;color:var(--sage)}
+.about-text{font-size:.92rem;line-height:2;color:var(--espresso-light);font-weight:300;margin-bottom:1.4rem}
+.expertise-list{margin-top:2.5rem;display:flex;flex-direction:column;gap:.6rem}
+.exp-item{display:flex;align-items:center;gap:1rem;padding:.7rem 0;border-bottom:1px solid rgba(60,42,30,.08)}
+.exp-dot{width:4px;height:4px;border-radius:50%;background:var(--sage);flex-shrink:0}
+.exp-text{font-size:.82rem;letter-spacing:.06em;color:var(--espresso-light)}
+.about-right{padding-top:4rem}
+.about-img-frame{width:100%;aspect-ratio:3/4;background:linear-gradient(160deg,#a8c4a2,#d4e2d0 50%,#e8ddd0);border-radius:4px;position:relative;overflow:hidden;margin-bottom:2rem}
+.about-img-frame img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.about-card{background:var(--white);border:1px solid rgba(60,42,30,.08);border-radius:4px;padding:1.6rem;display:flex;align-items:center;gap:1.2rem}
+.about-card-icon{width:48px;height:48px;background:var(--sage-pale);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.about-card-icon svg{width:22px;height:22px;stroke:var(--sage);fill:none;stroke-width:1.5}
+.about-card-label{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);margin-bottom:.3rem}
+.about-card-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--espresso)}
+
+/* SECTION EYEBROW */
+.section-eyebrow{display:flex;align-items:center;gap:.8rem;margin-bottom:.6rem}
+.section-eyebrow .e-line{width:24px;height:1px;background:var(--sage)}
+.section-eyebrow .e-text{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:500}
+
+/* HİZMETLER */
+#hizmetler{padding:9rem 6%;background:var(--beige-light);position:relative}
+.services-top{display:flex;justify-content:space-between;align-items:flex-end;max-width:1100px;margin:0 auto 5rem}
+.services-top h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.6rem);font-weight:300;line-height:1.15;color:var(--espresso)}
+.services-top h2 em{font-style:italic;color:var(--sage)}
+.services-top p{max-width:280px;font-size:.86rem;line-height:1.8;color:var(--espresso-light);font-weight:300}
+.services-list{max-width:1100px;margin:0 auto}
+.service-row{display:grid;grid-template-columns:80px 1fr auto;align-items:center;gap:3rem;padding:2rem 0;border-top:1px solid rgba(60,42,30,.1);cursor:pointer;transition:all .4s;position:relative;overflow:hidden}
+.service-row::before{content:'';position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--sage);transition:width .4s}
+.service-row:hover::before{width:100%}
+.service-row:last-child{border-bottom:1px solid rgba(60,42,30,.1)}
+.srv-num{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--sage);font-style:italic;font-weight:300}
+.srv-body{transition:transform .3s}
+.service-row:hover .srv-body{transform:translateX(8px)}
+.srv-name{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--espresso);margin-bottom:.3rem}
+.srv-desc{font-size:.82rem;line-height:1.7;color:var(--espresso-light);font-weight:300;max-width:520px}
+.srv-arrow{width:44px;height:44px;border:1px solid rgba(60,42,30,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s}
+.service-row:hover .srv-arrow{background:var(--sage);border-color:var(--sage)}
+.srv-arrow svg{width:16px;height:16px;stroke:var(--espresso-light);fill:none;stroke-width:2;transition:stroke .3s}
+.service-row:hover .srv-arrow svg{stroke:var(--white)}
+
+/* REFERANSLAR */
+#referanslar{padding:9rem 6%;background:var(--espresso);position:relative;overflow:hidden}
+.ref-bg-text{position:absolute;bottom:-2rem;right:-1rem;font-family:'Cormorant Garamond',serif;font-size:14rem;font-weight:600;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;user-select:none;white-space:nowrap}
+#referanslar .section-eyebrow .e-line{background:var(--sage-light)}
+#referanslar .section-eyebrow .e-text{color:var(--sage-light)}
+#referanslar h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.4rem);font-weight:300;color:var(--beige-light);margin-bottom:4rem;line-height:1.2}
+#referanslar h2 em{font-style:italic;color:var(--sage-light)}
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:1000px}
+.ref-card{border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:2.5rem;position:relative;transition:border-color .3s,background .3s}
+.ref-card:hover{border-color:rgba(107,143,100,.4);background:rgba(255,255,255,.03)}
+.ref-quote-mark{font-family:'Cormorant Garamond',serif;font-size:4rem;line-height:.8;color:var(--sage);margin-bottom:1rem;display:block;opacity:.6}
+.ref-text{font-size:.9rem;line-height:1.85;color:rgba(250,248,245,.7);margin-bottom:1.8rem;font-weight:300;font-style:italic}
+.ref-author{display:flex;align-items:center;gap:.8rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.07)}
+.ref-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--sage) 0%,var(--sage-light) 100%);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:500;color:white;flex-shrink:0;font-family:'Cormorant Garamond',serif}
+.ref-name{font-size:.82rem;color:var(--beige-light);font-weight:400;letter-spacing:.04em}
+.ref-detail{font-size:.7rem;color:var(--sage-light);margin-top:.15rem}
+.ref-stars{color:var(--sage-light);font-size:.7rem;letter-spacing:.1em;margin-left:auto}
+
+/* BLOG */
+#blog{padding:9rem 6%;background:var(--beige-mid)}
+.blog-header{display:flex;justify-content:space-between;align-items:flex-end;max-width:1100px;margin:0 auto 4rem}
+.blog-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.4rem);font-weight:300;line-height:1.15;color:var(--espresso)}
+.blog-header h2 em{font-style:italic;color:var(--sage)}
+.blog-all{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:gap .3s,color .3s}
+.blog-all:hover{gap:1rem;color:var(--sage)}
+.blog-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:1.5rem;max-width:1100px;margin:0 auto}
+.blog-card{background:var(--white);border-radius:4px;overflow:hidden;border:1px solid rgba(60,42,30,.07);transition:transform .35s,box-shadow .35s;cursor:pointer}
+.blog-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(60,42,30,.1)}
+.blog-thumb{height:220px;position:relative;overflow:hidden}
+.blog-card:nth-child(1) .blog-thumb{height:260px}
+.blog-thumb-inner{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.bt1{background:linear-gradient(145deg,#8faa8b 0%,#b8d4b4 50%,#d4e8d0 100%)}
+.bt2{background:linear-gradient(145deg,#d4c4b4 0%,#e8ddd0 100%)}
+.bt3{background:linear-gradient(145deg,#a8c4a0 0%,#c4dcc0 100%)}
+.blog-thumb svg{width:48px;height:48px;stroke:rgba(255,255,255,.6);fill:none;stroke-width:1}
+.blog-tag-wrap{position:absolute;top:1rem;left:1rem}
+.blog-tag{background:rgba(250,248,245,.9);backdrop-filter:blur(8px);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);padding:.3rem .8rem;border-radius:2px}
+.blog-body{padding:1.6rem}
+.blog-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:500;line-height:1.4;color:var(--espresso);margin-bottom:.8rem}
+.blog-card:nth-child(1) .blog-title{font-size:1.45rem}
+.blog-excerpt{font-size:.8rem;line-height:1.75;color:var(--espresso-light);font-weight:300}
+.blog-meta{display:flex;gap:1rem;margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(60,42,30,.07);font-size:.7rem;color:var(--espresso-light);letter-spacing:.04em}
+.blog-read-btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);font-weight:500;transition:gap .3s}
+.blog-card:hover .blog-read-btn{gap:.8rem}
+
+/* BLOG MODAL */
+.blog-modal-overlay{position:fixed;inset:0;background:rgba(44,31,20,.7);backdrop-filter:blur(8px);z-index:800;display:flex;align-items:center;justify-content:center;padding:2rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.blog-modal-overlay.open{opacity:1;pointer-events:all}
+.blog-modal{background:var(--white);border-radius:6px;max-width:760px;width:100%;max-height:90vh;overflow-y:auto;position:relative;transform:translateY(20px);transition:transform .3s}
+.blog-modal-overlay.open .blog-modal{transform:translateY(0)}
+.blog-modal-header{padding:3rem 3rem 0}
+.blog-modal-tag{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);font-weight:500;margin-bottom:1rem;display:block}
+.blog-modal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:400;line-height:1.25;color:var(--espresso);margin-bottom:1rem}
+.blog-modal-meta{font-size:.75rem;color:var(--espresso-light);display:flex;gap:1rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(60,42,30,.1)}
+.blog-modal-body{padding:2rem 3rem 3rem;font-size:.92rem;line-height:2;color:var(--espresso-light);font-weight:300}
+.blog-modal-body h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--espresso);margin:1.8rem 0 .8rem}
+.blog-modal-body p{margin-bottom:1.2rem}
+.blog-modal-body ul{padding-left:1.4rem;margin-bottom:1.2rem}
+.blog-modal-body ul li{margin-bottom:.5rem}
+.blog-modal-close{position:sticky;top:1.5rem;float:right;margin:1.5rem 1.5rem 0 0;width:36px;height:36px;border-radius:50%;border:1px solid rgba(60,42,30,.15);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--espresso-light);transition:all .3s;flex-shrink:0}
+.blog-modal-close:hover{background:var(--espresso);color:var(--white)}
+
+/* RANDEVU */
+#randevu{padding:9rem 6%;background:var(--off);position:relative;overflow:hidden}
+.randevu-header{text-align:center;max-width:560px;margin:0 auto 5rem}
+.randevu-header h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.6rem);font-weight:300;line-height:1.15;color:var(--espresso);margin-top:1rem}
+.randevu-header h2 em{font-style:italic;color:var(--sage)}
+.randevu-header p{font-size:.9rem;line-height:1.8;color:var(--espresso-light);margin-top:1rem;font-weight:300}
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;max-width:1000px;margin:0 auto;align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:1.8rem}
+.c-item{display:flex;align-items:flex-start;gap:1.2rem}
+.c-icon{width:44px;height:44px;border:1px solid rgba(60,42,30,.1);border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-icon svg{width:18px;height:18px;stroke:var(--sage);fill:none;stroke-width:1.5}
+.c-label{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);margin-bottom:.3rem}
+.c-val{font-size:.88rem;color:var(--espresso-light);line-height:1.5;font-weight:300}
+.socials-row{display:flex;gap:.8rem;margin-top:.5rem}
+.s-btn{width:40px;height:40px;border:1px solid rgba(60,42,30,.12);border-radius:2px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .3s}
+.s-btn:hover{background:var(--sage);border-color:var(--sage)}
+.s-btn svg{width:16px;height:16px;stroke:var(--espresso-light);fill:none;stroke-width:1.5;transition:stroke .3s}
+.s-btn:hover svg{stroke:var(--white)}
+.form-wrap{background:var(--white);border:1px solid rgba(60,42,30,.08);border-radius:4px;padding:3rem}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:var(--espresso);margin-bottom:2rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg{margin-bottom:1.2rem}
+.fg label{display:block;font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--espresso-light);margin-bottom:.5rem}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--beige-light);border:1px solid rgba(60,42,30,.12);border-radius:2px;padding:.8rem 1rem;font-family:'Inter',sans-serif;font-size:.86rem;color:var(--espresso);outline:none;transition:border-color .3s;font-weight:300}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--sage)}
+.fg textarea{height:90px;resize:none}
+.form-btn{width:100%;background:var(--espresso);color:var(--white);border:none;padding:1rem;font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .3s,transform .2s;border-radius:2px;margin-top:.5rem;font-weight:400}
+.form-btn:hover{background:var(--sage);transform:translateY(-2px)}
+.form-btn.sent{background:var(--sage)}
+
+/* FOOTER */
+footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--beige-light);letter-spacing:.06em}
+.f-logo span{color:var(--sage-light)}
+.f-links{display:flex;gap:2rem;list-style:none}
+.f-links a{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,221,208,.4);text-decoration:none;transition:color .3s}
+.f-links a:hover{color:var(--sage-light)}
+.f-copy{font-size:.68rem;color:rgba(232,221,208,.25);text-align:right;letter-spacing:.06em}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s ease}
+.reveal.up{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-24px);transition:opacity .75s ease,transform .75s ease}
+.reveal-left.up{opacity:1;transform:translateX(0)}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media(max-width:900px){
+  .about-grid{gap:4rem}
+  .blog-grid{grid-template-columns:1fr 1fr}
+  .blog-card:nth-child(1){grid-column:1/-1}
+  .contact-grid{gap:3rem}
+}
+
+@media(max-width:768px){
+  /* Hide desktop cursor on mobile */
+  .cursor-dot,.cursor-ring{display:none}
+  body{cursor:auto}
+
+  /* Nav mobile */
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+
+  /* Hero */
+  .hero-line,.hero-numbers,.scroll-indicator{display:none}
+  #hero{padding:7rem 5% 4rem;min-height:90vh}
+  h1.hero-title{font-size:clamp(2.6rem,10vw,4rem)}
+  .hero-desc{font-size:.88rem;max-width:100%}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:1.2rem}
+  .btn-sage{width:100%;text-align:center;padding:.9rem 1.5rem}
+
+  /* About */
+  #hakkimda{padding:5rem 5%}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .about-right{padding-top:0}
+  .about-img-frame{aspect-ratio:4/3;max-width:480px;margin:0 auto 2rem}
+  .about-decor,.about-decor2{display:none}
+
+  /* Services */
+  #hizmetler{padding:5rem 5%}
+  .services-top{flex-direction:column;align-items:flex-start;gap:1.5rem;margin-bottom:3rem}
+  .services-top p{max-width:100%}
+  .service-row{grid-template-columns:50px 1fr auto;gap:1.2rem;padding:1.5rem 0}
+  .srv-name{font-size:1.3rem}
+  .srv-desc{font-size:.8rem}
+
+  /* Referanslar */
+  #referanslar{padding:5rem 5%}
+  .ref-grid{grid-template-columns:1fr;gap:1.2rem}
+  .ref-bg-text{display:none}
+
+  /* Blog */
+  #blog{padding:5rem 5%}
+  .blog-header{flex-direction:column;align-items:flex-start;gap:1.2rem;margin-bottom:2.5rem}
+  .blog-grid{grid-template-columns:1fr;gap:1.2rem}
+  .blog-card:nth-child(1) .blog-thumb{height:200px}
+  .blog-thumb{height:180px}
+
+  /* Blog modal */
+  .blog-modal-overlay{padding:1rem;align-items:flex-end}
+  .blog-modal{max-height:88vh;border-radius:6px 6px 0 0}
+  .blog-modal-header{padding:2rem 1.5rem 0}
+  .blog-modal-body{padding:1.5rem 1.5rem 2.5rem}
+  .blog-modal-close{margin:.8rem .8rem 0 0}
+
+  /* Randevu */
+  #randevu{padding:5rem 5%}
+  .contact-grid{grid-template-columns:1fr;gap:2.5rem}
+  .form-wrap{padding:2rem 1.5rem}
+  .form-row{grid-template-columns:1fr}
+
+  /* Footer */
+  footer{grid-template-columns:1fr;text-align:center;gap:1.5rem;padding:3rem 5%}
+  .f-links{justify-content:center}
+  .f-copy{text-align:center}
+
+  /* Nav logo mobile */
+  .logo{font-size:1.2rem}
+}
+
+@media(max-width:480px){
+  nav{padding:1.2rem 5%}
+  .logo{font-size:1.1rem}
+  h1.hero-title{font-size:clamp(2.2rem,9vw,3rem)}
+  .about-left h2{font-size:2rem}
+  #hakkimda,.#hizmetler,#referanslar,#blog,#randevu{padding:4rem 4%}
+  .srv-arrow{width:36px;height:36px}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-ring" id="ring"></div>
+<div class="cursor-dot" id="dot"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
+  <a href="#hizmetler" onclick="closeMobileMenu()">Hizmetler</a>
+  <a href="#referanslar" onclick="closeMobileMenu()">Referanslar</a>
+  <a href="#blog" onclick="closeMobileMenu()">Blog</a>
+  <a href="#randevu" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">Diyetisyen Ayşegül Tekeli</a>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="#hakkimda">Hakkımda</a></li>
+      <li><a href="#hizmetler">Hizmetler</a></li>
+      <li><a href="#referanslar">Referanslar</a></li>
+      <li><a href="#blog">Blog</a></li>
+    </ul>
+    <a href="#randevu" class="nav-cta">Randevu Al</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Uzman Diyetisyen — Mersin</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="line">Beslenme</span>
+      <span class="line"><em>bir bilim,</em></span>
+      <span class="line">yaşam biçimi.</span>
+    </h1>
+    <p class="hero-desc">Vücudunuzu tanıyarak, size özel programlarla kalıcı ve sürdürülebilir değişim yaratıyoruz. Diyet değil, dönüşüm.</p>
+    <div class="hero-actions">
+      <a href="#randevu" class="btn-sage">Randevu Al</a>
+      <a href="#hizmetler" class="btn-ghost">
+        Hizmetleri Keşfet
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-numbers">
+    <div class="h-num"><div class="h-num-val">500+</div><div class="h-num-label">Mutlu Danışan</div></div>
+    <div class="h-num-divider"></div>
+    <div class="h-num"><div class="h-num-val">7+</div><div class="h-num-label">Yıl Deneyim</div></div>
+    <div class="h-num-divider"></div>
+    <div class="h-num"><div class="h-num-val">%94</div><div class="h-num-label">Başarı Oranı</div></div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Aşağı Kaydır</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="mTrack">
+    <span class="marquee-item">Kilo Yönetimi <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Sporcu Beslenmesi <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Online Danışmanlık <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Gebelik Beslenmesi <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Metabolik Sağlık <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Kişisel Diyet <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Kilo Yönetimi <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Sporcu Beslenmesi <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Online Danışmanlık <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Gebelik Beslenmesi <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Metabolik Sağlık <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">Kişisel Diyet <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- HAKKIMDA -->
+<section id="hakkimda">
+  <div class="about-decor"></div><div class="about-decor2"></div>
+  <div class="about-grid">
+    <div class="about-left reveal-left">
+      <div class="section-eyebrow"><div class="e-line"></div><span class="e-text">Hakkımda</span></div>
+      <h2>Bilimsel yaklaşım,<br><em>kişisel dokunuş</em></h2>
+      <p class="about-text">Merhaba, ben Uzman Diyetisyen Ayşegül Tekeli. Beslenme bilimini sizi tanımadan, alışkanlıklarınızı, yaşam tarzınızı ve hedeflerinizi dinlemeden uygulamak doğru değil.</p>
+      <p class="about-text">Bu yüzden her danışanımla sıfırdan başlıyorum. Yıllar içinde edindiğim klinik deneyimi, size özel ve sürdürülebilir beslenme programlarına dönüştürüyorum.</p>
+      <div class="expertise-list">
+        <div class="exp-item"><div class="exp-dot"></div><span class="exp-text">Kilo Yönetimi &amp; Obezite</span></div>
+        <div class="exp-item"><div class="exp-dot"></div><span class="exp-text">Sporcu &amp; Performans Beslenmesi</span></div>
+        <div class="exp-item"><div class="exp-dot"></div><span class="exp-text">Gebelik &amp; Emzirme Dönemi</span></div>
+        <div class="exp-item"><div class="exp-dot"></div><span class="exp-text">Metabolik &amp; Kronik Hastalıklar</span></div>
+        <div class="exp-item"><div class="exp-dot"></div><span class="exp-text">Yeme Bozuklukları</span></div>
+      </div>
+    </div>
+    <div class="about-right reveal">
+      <div class="about-img-frame">
+        <img src="aysegul.webp" alt="Uzman Diyetisyen Ayşegül Tekeli">
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div>
+          <div class="about-card-label">Uzmanlık</div>
+          <div class="about-card-val">Uzman Diyetisyen</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HİZMETLER -->
+<section id="hizmetler">
+  <div class="services-top reveal">
+    <div>
+      <div class="section-eyebrow"><div class="e-line"></div><span class="e-text">Hizmetler</span></div>
+      <h2>Size özel<br><em>beslenme çözümleri</em></h2>
+    </div>
+    <p>Her danışan farklıdır. Programlarımız tamamen kişiye özel olarak hazırlanır; standart listeler değil.</p>
+  </div>
+  <div class="services-list">
+    <div class="service-row reveal" onclick="location='#randevu'">
+      <div class="srv-num">01</div>
+      <div class="srv-body">
+        <div class="srv-name">Kişisel Diyet Programı</div>
+        <div class="srv-desc">Yaşam tarzınız ve hedefleriniz doğrultusunda tamamen size özel, haftalık güncellenen beslenme planı.</div>
+      </div>
+      <div class="srv-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="service-row reveal" onclick="location='#randevu'">
+      <div class="srv-num">02</div>
+      <div class="srv-body">
+        <div class="srv-name">Kilo Yönetimi</div>
+        <div class="srv-desc">Kalıcı kilo verme ve sağlıklı kilo alma programları. Metabolizmanıza özel, açlık hissi yaratmayan dengeli listeler.</div>
+      </div>
+      <div class="srv-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="service-row reveal" onclick="location='#randevu'">
+      <div class="srv-num">03</div>
+      <div class="srv-body">
+        <div class="srv-name">Online Danışmanlık</div>
+        <div class="srv-desc">Nerede olursanız olun, video görüşme ve mesajlaşma yoluyla profesyonel beslenme desteği alın.</div>
+      </div>
+      <div class="srv-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="service-row reveal" onclick="location='#randevu'">
+      <div class="srv-num">04</div>
+      <div class="srv-body">
+        <div class="srv-name">Sporcu Beslenmesi</div>
+        <div class="srv-desc">Performansınızı artıracak, toparlanmanızı hızlandıracak ve hedeflerinize göre tasarlanmış spor diyeti.</div>
+      </div>
+      <div class="srv-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="service-row reveal" onclick="location='#randevu'">
+      <div class="srv-num">05</div>
+      <div class="srv-body">
+        <div class="srv-name">Gebelik &amp; Emzirme Dönemi</div>
+        <div class="srv-desc">Anne adayı ve bebek için en doğru besin desteğini, trimestere özel programlarla planlıyoruz.</div>
+      </div>
+      <div class="srv-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+    <div class="service-row reveal" onclick="location='#randevu'">
+      <div class="srv-num">06</div>
+      <div class="srv-body">
+        <div class="srv-name">Hastalıklarda Beslenme</div>
+        <div class="srv-desc">Diyabet, tansiyon, kolesterol ve diğer metabolik hastalıklarda tıbbi beslenme tedavisi.</div>
+      </div>
+      <div class="srv-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERANSLAR -->
+<section id="referanslar">
+  <div class="ref-bg-text">beslenme</div>
+  <div class="reveal">
+    <div class="section-eyebrow"><div class="e-line"></div><span class="e-text">Başarı Hikayeleri</span></div>
+    <h2>Danışanlarım<br><em>ne söylüyor?</em></h2>
+  </div>
+  <div class="ref-grid">
+    <div class="ref-card reveal">
+      <span class="ref-quote-mark">"</span>
+      <p class="ref-text">Ayşegül Hanım ile tanıştıktan sonra beslenmeye bakışım tamamen değişti. 3 ayda 12 kilo verdim ve en önemlisi bu kiloları koruyabiliyorum. Listeyi uygulamak hiç zor gelmedi.</p>
+      <div class="ref-author">
+        <div class="ref-avatar">S</div>
+        <div><div class="ref-name">Selin K.</div><div class="ref-detail">Kilo Yönetimi · 3 ay</div></div>
+        <div class="ref-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="ref-card reveal">
+      <span class="ref-quote-mark">"</span>
+      <p class="ref-text">Gebelik sürecimde tam bir rehber oldu. Her trimesterde ne yiyip ne yemeyeceğimi, hangi vitaminlere ihtiyacım olduğunu çok net anlattı. Bebeğim sağlıklı doğdu.</p>
+      <div class="ref-author">
+        <div class="ref-avatar">M</div>
+        <div><div class="ref-name">Merve T.</div><div class="ref-detail">Gebelik Beslenmesi · 9 ay</div></div>
+        <div class="ref-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="ref-card reveal">
+      <span class="ref-quote-mark">"</span>
+      <p class="ref-text">Online seanslar çok pratik. Şehir dışında olmama rağmen hiç aksatmadan takip edebildim. Programlar gerçekten kişiye özel, jenerik listeler değil.</p>
+      <div class="ref-author">
+        <div class="ref-avatar">E</div>
+        <div><div class="ref-name">Emre A.</div><div class="ref-detail">Online Danışmanlık · 6 ay</div></div>
+        <div class="ref-stars">★★★★★</div>
+      </div>
+    </div>
+    <div class="ref-card reveal">
+      <span class="ref-quote-mark">"</span>
+      <p class="ref-text">Diyabet tanısından sonra çok endişeliydim. Hem psikolojik destek verdi hem de şeker seviyemi kontrol altına alacak bir program hazırladı. İnanılmaz bir fark yarattı.</p>
+      <div class="ref-author">
+        <div class="ref-avatar">F</div>
+        <div><div class="ref-name">Fatma Ö.</div><div class="ref-detail">Hastalıklarda Beslenme · 4 ay</div></div>
+        <div class="ref-stars">★★★★★</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section id="blog">
+  <div class="blog-header reveal">
+    <div>
+      <div class="section-eyebrow"><div class="e-line"></div><span class="e-text">Beslenme İpuçları</span></div>
+      <h2>Güncel <em>içerikler</em></h2>
+    </div>
+    <a href="#" class="blog-all">Tümünü Gör <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card reveal" onclick="openBlog(0)">
+      <div class="blog-thumb bt1">
+        <div class="blog-thumb-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <div class="blog-tag-wrap"><span class="blog-tag">Beslenme</span></div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-title">Ara öğünlerin metabolizmaya etkisi nedir?</div>
+        <p class="blog-excerpt">Doğru zamanda yapılan küçük öğünler açlık krizlerini önler ve yağ yakımını destekler. Peki nasıl planlanmalı?</p>
+        <div class="blog-meta"><span>4 dk okuma</span><span>·</span><span>Mayıs 2025</span></div>
+        <span class="blog-read-btn">Devamını Oku <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+    <div class="blog-card reveal" onclick="openBlog(1)">
+      <div class="blog-thumb bt2">
+        <div class="blog-thumb-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66 4.24 4.24M2 12h6m8 0h6"/></svg>
+        </div>
+        <div class="blog-tag-wrap"><span class="blog-tag">Sağlık</span></div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-title">Günde kaç litre su içmeliyiz?</div>
+        <p class="blog-excerpt">"8 bardak" kuralı herkese uygulanamaz. Vücut ağırlığınıza göre hesaplayın.</p>
+        <div class="blog-meta"><span>3 dk okuma</span><span>·</span><span>Nisan 2025</span></div>
+        <span class="blog-read-btn">Devamını Oku <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+    <div class="blog-card reveal" onclick="openBlog(2)">
+      <div class="blog-thumb bt3">
+        <div class="blog-thumb-inner">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="blog-tag-wrap"><span class="blog-tag">Diyet</span></div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-title">Sağlıklı yağlar: avokado, zeytinyağı ve ceviz</div>
+        <p class="blog-excerpt">Doğru yağ seçimi hem doygunluk verir hem de kalp sağlığını destekler.</p>
+        <div class="blog-meta"><span>5 dk okuma</span><span>·</span><span>Mart 2025</span></div>
+        <span class="blog-read-btn">Devamını Oku <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG MODAL -->
+<div class="blog-modal-overlay" id="blogModal" onclick="closeBlogOnOverlay(event)">
+  <div class="blog-modal" id="blogModalInner">
+    <button class="blog-modal-close" onclick="closeBlog()">✕</button>
+    <div class="blog-modal-header">
+      <span class="blog-modal-tag" id="modalTag"></span>
+      <div class="blog-modal-title" id="modalTitle"></div>
+      <div class="blog-modal-meta" id="modalMeta"></div>
+    </div>
+    <div class="blog-modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- RANDEVU -->
+<section id="randevu">
+  <div class="randevu-header reveal">
+    <div class="section-eyebrow" style="justify-content:center"><div class="e-line"></div><span class="e-text">Randevu &amp; İletişim</span></div>
+    <h2>Değişim için<br><em>ilk adımı atalım</em></h2>
+    <p>Formu doldurun, en kısa sürede sizinle iletişime geçelim.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal-left">
+      <div class="c-item">
+        <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div class="c-label">Adres</div><div class="c-val">Mersin, Türkiye<br>—</div></div>
+      </div>
+      <div class="c-item">
+        <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12 19.79 19.79 0 011.61 3.5 2 2 0 013.6 1.32h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 9a16 16 0 006.29 6.29l1.75-1.75a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+        <div><div class="c-label">Telefon</div><div class="c-val">—</div></div>
+      </div>
+      <div class="c-item">
+        <div class="c-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg></div>
+        <div><div class="c-label">E-posta</div><div class="c-val">—</div></div>
+      </div>
+      <div class="c-item">
+        <div class="c-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div><div class="c-label">Çalışma Saatleri</div><div class="c-val">Pzt – Cmt: 09:00 – 18:00</div></div>
+      </div>
+      <div class="socials-row">
+        <a class="s-btn" href="https://www.instagram.com/dyt.aysegultekeli/" target="_blank">
+          <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a class="s-btn" href="#">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </a>
+        <a class="s-btn" href="#">
+          <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="form-wrap reveal">
+      <div class="form-title">Randevu Talebi</div>
+      <div class="form-row">
+        <div class="fg"><label>Ad</label><input type="text" placeholder="Adınız"></div>
+        <div class="fg"><label>Soyad</label><input type="text" placeholder="Soyadınız"></div>
+      </div>
+      <div class="fg"><label>Telefon</label><input type="tel" placeholder="+90 5XX XXX XX XX"></div>
+      <div class="fg"><label>Hizmet</label>
+        <select>
+          <option>Seçiniz...</option>
+          <option>Kişisel Diyet Programı</option>
+          <option>Kilo Yönetimi</option>
+          <option>Online Danışmanlık</option>
+          <option>Sporcu Beslenmesi</option>
+          <option>Gebelik Beslenmesi</option>
+          <option>Hastalıklarda Beslenme</option>
+        </select>
+      </div>
+      <div class="fg"><label>Mesaj</label><textarea placeholder="Kendiniz ve hedefiniz hakkında kısa bilgi..."></textarea></div>
+      <button class="form-btn" id="fBtn" onclick="submitForm()">Gönder — Randevu Al</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">Diyetisyen Ayşegül Tekeli</div>
+  <ul class="f-links">
+    <li><a href="#hakkimda">Hakkımda</a></li>
+    <li><a href="#hizmetler">Hizmetler</a></li>
+    <li><a href="#randevu">Randevu</a></li>
+  </ul>
+  <div class="f-copy">© 2025 Diyetisyen Ayşegül Tekeli</div>
+</footer>
+
+<script>
+// Blog articles data
+const blogArticles = [
+  {
+    tag: 'Beslenme',
+    title: 'Ara öğünlerin metabolizmaya etkisi nedir?',
+    meta: ['4 dk okuma', 'Mayıs 2025', 'Dyt. Ayşegül Tekeli'],
+    body: `
+      <p>Ara öğün kavramı, beslenme dünyasında sıkça tartışılan konulardan biridir. Pek çok kişi "az ye, sık ye" ilkesini duymuştur; ancak bu ilkenin metabolizma üzerindeki gerçek etkisi sandığınızdan daha nüanslıdır.</p>
+
+      <h3>Kan Şekerini Dengede Tutar</h3>
+      <p>Ana öğünler arasındaki uzun aralıklar kan şekerinin düşmesine neden olur. Bu düşüş; yorgunluk, konsantrasyon kaybı ve ani açlık krizleri doğurur. Doğru planlanmış bir ara öğün, kan şekerini sabit tutarak bu döngüyü kırar.</p>
+
+      <h3>Metabolizmayı Aktif Tutar</h3>
+      <p>Uzun açlık dönemlerinde vücut "tasarruf moduna" geçerek yağ yakmak yerine enerji harcamasını azaltır. Düzenli aralıklarla yapılan küçük öğünler, bu adaptasyonun önüne geçer ve termojenezi (ısı üretimi) canlı tutar.</p>
+
+      <h3>İdeal Ara Öğün Nasıl Olmalı?</h3>
+      <ul>
+        <li>150–250 kalori aralığında tutulmalı</li>
+        <li>Protein + kompleks karbonhidrat kombinasyonu içermeli (örn. yoğurt + meyve)</li>
+        <li>Şekerli, rafine gıdalardan kaçınılmalı</li>
+        <li>Ana öğünden 2–3 saat sonra yapılmalı</li>
+      </ul>
+
+      <h3>Herkese Uygun mudur?</h3>
+      <p>Aralıklı oruç uygulayan bireylerde veya insülin direnci olan kişilerde ara öğün planlaması farklılık gösterebilir. Bu nedenle kişisel beslenme programınızı bir diyetisyen eşliğinde oluşturmanız en sağlıklı seçimdir.</p>
+
+      <p>Unutmayın: Beslenme evrensel değil, kişiseldir. Metabolizmanız, alışkanlıklarınız ve hedefleriniz bir arada değerlendirildiğinde en doğru plana ulaşılır.</p>
+    `
+  },
+  {
+    tag: 'Sağlık',
+    title: 'Günde kaç litre su içmeliyiz?',
+    meta: ['3 dk okuma', 'Nisan 2025', 'Dyt. Ayşegül Tekeli'],
+    body: `
+      <p>"Günde 8 bardak su için" tavsiyesini hepimiz duymuşuzdur. Ancak bu kural, onlarca yıl önce oldukça genel bir hesaplamayla önerilmiş ve bilimsel bir temelden yoksundur. Gerçek ihtiyaç, kişiden kişiye önemli ölçüde değişir.</p>
+
+      <h3>Su İhtiyacı Nasıl Hesaplanır?</h3>
+      <p>Genel bir kural olarak: <strong>vücut ağırlığınızın (kg) × 30–35 ml</strong> formülü kullanılabilir. Örneğin 70 kg bir birey için günlük su ihtiyacı 2.1 – 2.4 litre arasındadır.</p>
+
+      <h3>Su İhtiyacını Artıran Faktörler</h3>
+      <ul>
+        <li>Fiziksel aktivite ve egzersiz</li>
+        <li>Sıcak ve nemli hava koşulları</li>
+        <li>Gebelik ve emzirme dönemi</li>
+        <li>Ateşli hastalıklar, ishal veya kusma</li>
+        <li>Kafein ve alkol tüketimi</li>
+      </ul>
+
+      <h3>Yeterli Su İçtiğinizi Nasıl Anlarsınız?</h3>
+      <p>En pratik yöntem idrar rengidir: açık sarı veya renksiz idrar yeterli hidrasyonu gösterir. Koyu sarı veya amber renk dehidrasyon işaretidir.</p>
+
+      <h3>Sadece Su mu Sayılır?</h3>
+      <p>Hayır. Çay, bitki çayı, süt ve meyve/sebzelerden alınan sıvılar da günlük su dengesine katkı sağlar. Ancak şekerli ve gazlı içecekler su yerine geçmez; aksine su ihtiyacını artırabilir.</p>
+
+      <p>Susadığınızda içmek yerine susuzluk hissi oluşmadan düzenli aralıklarla sıvı almayı alışkanlık haline getirin. Bu basit değişiklik enerji düzeyinizde ve cilt sağlığınızda belirgin bir fark yaratacaktır.</p>
+    `
+  },
+  {
+    tag: 'Diyet',
+    title: 'Sağlıklı yağlar: avokado, zeytinyağı ve ceviz',
+    meta: ['5 dk okuma', 'Mart 2025', 'Dyt. Ayşegül Tekeli'],
+    body: `
+      <p>Yıllarca "yağ = kilo" denklemiyle şartlandırıldık. Oysa vücudumuzun işlevsel kalabilmesi için yağa ihtiyacı var; soru yağı tamamen kesmek değil, doğru yağı seçmek.</p>
+
+      <h3>Neden Sağlıklı Yağlara İhtiyacımız Var?</h3>
+      <p>Yağda çözünen A, D, E ve K vitaminlerinin emilimi için yağ şarttır. Aynı zamanda hücre zarlarının yapı taşını oluşturur, hormon üretimini destekler ve uzun süreli doygunluk hissi sağlar.</p>
+
+      <h3>Avokado</h3>
+      <p>Tekli doymamış yağ asitleri bakımından zengin olan avokado, LDL (kötü) kolesterolü düşürürken HDL (iyi) kolesterolü korur. Aynı zamanda potasyum, folat ve E vitamini içerir. Sabah kahvaltısında tam buğday ekmek üzerine ezilmiş avokado, güne mükemmel bir başlangıç sunar.</p>
+
+      <h3>Zeytinyağı</h3>
+      <p>Akdeniz diyetinin vazgeçilmezi olan zeytinyağı; oleik asit ve polifenoller bakımından zengindir. Antiinflamatuar etkileri sayesinde kalp hastalıkları ve kronik iltihaplanma riskini azaltır. Soğuk sıkım (extra virgin) tercih edin ve kızartmak yerine salata sosu olarak kullanın.</p>
+
+      <h3>Ceviz</h3>
+      <p>Omega-3 yağ asitleri (ALA) açısından bitkisel kaynaklar arasında en zengin besin olan ceviz, beyin sağlığını destekler ve kardiyovasküler riski azaltır. Günde 5–7 adet (yaklaşık 30 g) yeterlidir; fazlası kalori dengenizi olumsuz etkileyebilir.</p>
+
+      <h3>Dikkat Edilmesi Gerekenler</h3>
+      <ul>
+        <li>Sağlıklı yağlar da kalori yoğundur: 1 gram yağ = 9 kalori</li>
+        <li>Trans yağlardan (margarin, hazır bisküvi, kızartmalar) kesinlikle uzak durun</li>
+        <li>Doymuş yağ tüketimini sınırlandırın; kırmızı et ve tam yağlı süt ürünlerini ölçülü tüketin</li>
+      </ul>
+
+      <p>Beslenme planınıza her gün küçük miktarlarda sağlıklı yağ eklemek, uzun vadede hem metabolizmanızı hem de genel sağlığınızı olumlu yönde dönüştürecektir.</p>
+    `
+  }
+];
+
+function openBlog(index) {
+  const a = blogArticles[index];
+  document.getElementById('modalTag').textContent = a.tag;
+  document.getElementById('modalTitle').textContent = a.title;
+  document.getElementById('modalMeta').innerHTML = a.meta.map(m => `<span>${m}</span>`).join('<span style="opacity:.4">·</span>');
+  document.getElementById('modalBody').innerHTML = a.body;
+  const overlay = document.getElementById('blogModal');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('blogModalInner').scrollTop = 0;
+}
+
+function closeBlog() {
+  document.getElementById('blogModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeBlogOnOverlay(e) {
+  if (e.target === document.getElementById('blogModal')) closeBlog();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBlog(); });
+
+// Mobile menu
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Custom cursor (desktop only)
+const ring=document.getElementById('ring'),dot=document.getElementById('dot');
+let mx=window.innerWidth/2,my=window.innerHeight/2;
+let rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function animRing(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+document.querySelectorAll('a,button,.service-row,.blog-card,.ref-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.classList.add('hovered');dot.classList.add('hovered');});
+  el.addEventListener('mouseleave',()=>{ring.classList.remove('hovered');dot.classList.remove('hovered');});
+});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>80));
+
+// Scroll reveal
+const revealEls=document.querySelectorAll('.reveal,.reveal-left');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('up'),i*90);
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.08});
+revealEls.forEach(r=>io.observe(r));
+
+// Form
+function submitForm(){
+  const ad=document.querySelector('input[placeholder="Adınız"]').value.trim();
+  const soyad=document.querySelector('input[placeholder="Soyadınız"]').value.trim();
+  const tel=document.querySelector('input[type="tel"]').value.trim();
+  const hizmet=document.querySelector('select').value;
+  const mesaj=document.querySelector('textarea').value.trim();
+  if(!ad||!tel){alert('Lütfen en az adınızı ve telefon numaranızı girin.');return;}
+  const waNum='905XXXXXXXXX';
+  const text=`Merhaba Dyt. Ayşegül Hanım,%0A%0A*Randevu Talebi*%0A%0AAdı Soyadı: ${encodeURIComponent(ad+' '+soyad)}%0ATelefon: ${encodeURIComponent(tel)}%0AHizmet: ${encodeURIComponent(hizmet)}%0A${mesaj?'Notlar: '+encodeURIComponent(mesaj):''}%0A%0ASiteden gönderildi.`;
+  const b=document.getElementById('fBtn');
+  b.textContent='WhatsApp\'a Yönlendiriliyorsunuz...';b.classList.add('sent');b.disabled=true;
+  setTimeout(()=>{
+    window.open(`https://wa.me/${waNum}?text=${text}`,'_blank');
+    b.textContent='Gönder — Randevu Al';b.classList.remove('sent');b.disabled=false;
+  },800);
+}
+
+// Marquee duplicate
+const mt=document.getElementById('mTrack');
+mt.innerHTML+=mt.innerHTML;
+
+// Count up animation
+const nums=document.querySelectorAll('.h-num-val');
+const countIo=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target,target=el.textContent;
+      const num=parseInt(target.replace(/\D/g,''));
+      const suffix=target.replace(/[\d]/g,'');
+      let start=0;const dur=1800;const step=num/dur*16;
+      const t=setInterval(()=>{
+        start=Math.min(start+step,num);
+        el.textContent=(suffix.startsWith('%')?'%':'')+Math.floor(start)+(suffix.includes('+')?'+':'');
+        if(start>=num)clearInterval(t);
+      },16);
+      countIo.unobserve(el);
+    }
+  });
+},{threshold:0.5});
+nums.forEach(n=>countIo.observe(n));
+</script>
+</body>
+</html>
