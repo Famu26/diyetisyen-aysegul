@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hizmetler — Diyetisyen Ayşegül Tekeli</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#6B8F64;--sage-light:#9BBF95;--sage-pale:#DCE9DA;
+  --beige:#E8DDD0;--beige-light:#FAF8F5;--beige-mid:#F0E9E0;
+  --espresso:#2C1F14;--espresso-mid:#5A3E2B;--espresso-light:#8B6E56;
+  --white:#fff;--off:#FDFCFA;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--beige-light);color:var(--espresso);overflow-x:hidden;cursor:none}
+
+.cursor-dot{position:fixed;width:8px;height:8px;background:var(--sage);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s,width .25s,height .25s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:2px solid var(--sage);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .3s,height .3s,background .3s}
+.cursor-ring.hovered{width:64px;height:64px;background:rgba(107,143,100,.1)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.6rem 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(250,248,245,.95);backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(60,42,30,.08)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;letter-spacing:.04em;color:var(--espresso);text-decoration:none;line-height:1.2}
+.nav-r{display:flex;align-items:center;gap:2.5rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--sage)}
+.nav-cta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--espresso);color:var(--white);padding:.6rem 1.4rem;border-radius:2px;text-decoration:none;transition:background .3s}
+.nav-cta:hover{background:var(--sage)}
+
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--espresso);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(250,248,245,.97);backdrop-filter:blur(20px);z-index:550;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--espresso);text-decoration:none;letter-spacing:.04em;transition:color .3s}
+.mobile-menu a:hover{color:var(--sage)}
+.mobile-menu .m-cta{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sage);color:var(--white);padding:.8rem 2rem;border-radius:2px;font-family:'Inter',sans-serif}
+
+.page-header{padding:10rem 6% 5rem;background:var(--beige-mid);text-align:center}
+.page-header .eyebrow{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:1.2rem}
+.page-header .e-line{width:30px;height:1px;background:var(--sage)}
+.page-header .e-text{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:500}
+.page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:300;line-height:1.1;color:var(--espresso)}
+.page-header h1 em{font-style:italic;color:var(--sage)}
+.page-header p{margin-top:1.2rem;font-size:.95rem;color:var(--espresso-light);font-weight:300;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8}
+
+#listView{padding:6rem 6% 8rem;max-width:1200px;margin:0 auto}
+.srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem}
+
+.card{background:var(--white);border-radius:6px;overflow:hidden;cursor:none;transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(44,31,20,.1)}
+.card-img{width:100%;height:210px;object-fit:cover;display:block}
+.card-body{padding:1.8rem}
+.card-num{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:500;margin-bottom:.7rem;display:block}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;line-height:1.3;color:var(--espresso);margin-bottom:.7rem}
+.card-excerpt{font-size:.84rem;line-height:1.75;color:var(--espresso-light);font-weight:300;margin-bottom:1.3rem}
+.card-btn{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);font-weight:500;display:flex;align-items:center;gap:.4rem;transition:gap .3s}
+.card:hover .card-btn{gap:.8rem}
+
+#detailView{display:none;padding:8rem 6% 8rem;max-width:820px;margin:0 auto}
+.detail-back{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--espresso-light);cursor:none;margin-bottom:3rem;transition:color .3s;border:none;background:none;font-family:'Inter',sans-serif}
+.detail-back:hover{color:var(--sage)}
+.detail-back svg{transition:transform .3s}
+.detail-back:hover svg{transform:translateX(-3px)}
+.detail-num{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:500;margin-bottom:.8rem;display:block}
+.detail-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;line-height:1.15;color:var(--espresso);margin-bottom:2.5rem}
+.detail-hero-img{width:100%;height:400px;object-fit:cover;border-radius:6px;margin-bottom:3rem;display:block}
+.detail-body{font-size:.95rem;line-height:1.9;color:var(--espresso);font-weight:300}
+.detail-body p{margin-bottom:1.2rem}
+.detail-body ul{margin:0 0 1.4rem 1.5rem}
+.detail-body li{margin-bottom:.5rem}
+.detail-body strong{font-weight:500}
+.detail-cta{display:inline-flex;align-items:center;gap:.6rem;margin-top:2.5rem;background:var(--sage);color:var(--white);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;padding:.8rem 1.8rem;border-radius:2px;text-decoration:none;transition:background .3s}
+.detail-cta:hover{background:var(--espresso)}
+
+footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(255,255,255,.7);letter-spacing:.04em}
+.f-links{display:flex;gap:2rem;list-style:none;justify-content:center}
+.f-links a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;transition:color .3s}
+.f-links a:hover{color:rgba(255,255,255,.9)}
+.f-copy{font-size:.68rem;letter-spacing:.08em;color:rgba(255,255,255,.3);text-align:right}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .srv-grid{grid-template-columns:1fr 1fr}
+  body{cursor:auto}
+  .cursor-dot,.cursor-ring{display:none}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:600px){
+  .srv-grid{grid-template-columns:1fr}
+  .page-header{padding:8rem 5% 4rem}
+  #listView{padding:4rem 5% 6rem}
+  #detailView{padding:6rem 5% 6rem}
+  .detail-hero-img{height:220px}
+  footer{grid-template-columns:1fr;text-align:center}
+  .f-copy{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="dot"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
+  <a href="hizmetler.html" onclick="closeMobileMenu()">Hizmetler</a>
+  <a href="index.html#tarifler" onclick="closeMobileMenu()">Tarifler</a>
+  <a href="index.html#referanslar" onclick="closeMobileMenu()">Referanslar</a>
+  <a href="blog.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Blog</a>
+  <a href="index.html#randevu" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
+</div>
+
+<nav>
+  <a href="index.html" class="logo">Diyetisyen Ayşegül Tekeli</a>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="index.html#hakkimda">Hakkımda</a></li>
+      <li><a href="hizmetler.html" class="active">Hizmetler</a></li>
+      <li><a href="index.html#tarifler">Tarifler</a></li>
+      <li><a href="index.html#referanslar">Referanslar</a></li>
+      <li><a href="blog.html" target="_blank" rel="noopener">Blog</a></li>
+    </ul>
+    <a href="index.html#randevu" class="nav-cta">Randevu Al</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-header" id="pageHeader">
+  <div class="eyebrow"><div class="e-line"></div><span class="e-text">Beslenme Hizmetleri</span></div>
+  <h1>Size özel <em>çözümler</em></h1>
+  <p>Her danışan farklıdır. Programlarımız tamamen kişiye özel hazırlanır; standart listeler değil, gerçek dönüşüm.</p>
+</div>
+
+<section id="listView">
+  <div class="srv-grid" id="srvGrid"></div>
+</section>
+
+<section id="detailView">
+  <button class="detail-back" onclick="showList()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Tüm Hizmetler
+  </button>
+  <span class="detail-num" id="dNum"></span>
+  <h1 class="detail-title" id="dTitle"></h1>
+  <img class="detail-hero-img" id="dImg" src="" alt="">
+  <div class="detail-body" id="dBody"></div>
+  <a class="detail-cta" href="index.html#randevu">Randevu Al <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+</section>
+
+<footer>
+  <div class="f-logo">Diyetisyen Ayşegül Tekeli</div>
+  <ul class="f-links">
+    <li><a href="index.html#hakkimda">Hakkımda</a></li>
+    <li><a href="hizmetler.html">Hizmetler</a></li>
+    <li><a href="index.html#randevu">Randevu</a></li>
+  </ul>
+  <div class="f-copy">© 2025 Diyetisyen Ayşegül Tekeli</div>
+</footer>
+
+<script>
+const services = [
+  {
+    id: 'kisisel-diyet',
+    num: '01',
+    title: 'Kişisel Diyet Programı',
+    excerpt: 'Yaşam tarzınız ve hedefleriniz doğrultusunda tamamen size özel, haftalık güncellenen beslenme planı.',
+    img: 'https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=900&auto=format&fit=crop&q=80',
+    body: `
+      <p>Tek tip beslenme programları, tek tip sonuçlar doğurur. Kişisel Diyet Programı hizmetimizde; uyku düzeninizden iş temponuza, mutfak alışkanlıklarınızdan sevdiğiniz tatları değiştirmek isteyip istemediğinize kadar her detay dikkate alınır. Önce kapsamlı bir beslenme anamnezi ve vücut bileşimi değerlendirmesi yapılır.</p>
+      <p>Programa başlamadan önce kan değerleriniz, hormonal durumunuz ve varsa kronik hastalıklarınız incelenir. Bu veriler ışığında makro ve mikro besin dengeniz hesaplanır. Program, 4 haftada bir güncellenerek değişen ihtiyaçlarınıza adapte edilir.</p>
+      <ul>
+        <li>Haftalık beslenme listesi ve alternatifler</li>
+        <li>Alışveriş rehberi ve pratik tarifler</li>
+        <li>Düzenli takip görüşmeleri</li>
+        <li>7 gün mesaj ile destek</li>
+      </ul>
+      <p>Hedef yalnızca kilo değil; enerji, odaklanma ve genel yaşam kalitesinde kalıcı iyileşmedir.</p>
+    `
+  },
+  {
+    id: 'kilo-yonetimi',
+    num: '02',
+    title: 'Kilo Yönetimi',
+    excerpt: 'Kalıcı kilo verme ve sağlıklı kilo alma programları. Metabolizmanıza özel, açlık hissi yaratmayan dengeli listeler.',
+    img: 'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=900&auto=format&fit=crop&q=80',
+    body: `
+      <p>Kilo vermek ile sağlıklı kilo vermek arasındaki fark, sürdürülebilirliktedir. Aşırı kısıtlayıcı diyetler kısa vadede sonuç verse de metabolizma hızını düşürür, kas kaybına yol açar ve genellikle yo-yo etkisiyle geri tepir. Kilo Yönetimi programımız bu döngüyü kırmak üzerine tasarlanmıştır.</p>
+      <p>Vücut yağ yüzdesi, kas kütlesi ve bazal metabolizma hızı ölçümleri baz alınarak haftalık kalori ve besin hedefleri belirlenir. Açlık hissi yaratmayan, doyurucu ve lezzetli öğün planları ile süreç keyifli hale getirilir.</p>
+      <ul>
+        <li>Vücut bileşimi analizi ve takip</li>
+        <li>Kilo hedefine göre kademeli plan</li>
+        <li>Tatlı ve atıştırmalık alternatifleri dahil</li>
+        <li>Plato dönemlerinde özel müdahale stratejileri</li>
+      </ul>
+      <p>Hedefiniz kilo vermek de olsa almak da olsa, doğru yolu birlikte belirleriz.</p>
+    `
+  },
+  {
+    id: 'online-danismanlik',
+    num: '03',
+    title: 'Online Danışmanlık',
+    excerpt: 'Nerede olursanız olun, video görüşme ve mesajlaşma yoluyla profesyonel beslenme desteği alın.',
+    img: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&auto=format&fit=crop&q=80',
+    body: `
+      <p>Profesyonel beslenme danışmanlığı artık coğrafi sınır tanımıyor. Online Danışmanlık hizmetimiz sayesinde Türkiye'nin her şehrinden ya da yurt dışından, istediğiniz saatte görüşme yapabilir ve desteğe her an ulaşabilirsiniz.</p>
+      <p>İlk seansta kapsamlı bir beslenme anamnezi alınır, hedefleriniz ve yaşam koşullarınız değerlendirilir. Akabinde kişiselleştirilmiş program hazırlanarak WhatsApp veya e-posta üzerinden iletilir.</p>
+      <ul>
+        <li>Video görüşme ile yüz yüze deneyim</li>
+        <li>Dijital ortamda program ve doküman paylaşımı</li>
+        <li>Esnek randevu saatleri (akşam ve hafta sonu dahil)</li>
+        <li>Anlık mesaj desteği ve motivasyon takibi</li>
+      </ul>
+      <p>Zaman ve mekan kısıtı olmaksızın sağlıklı bir yaşama adım atmak için hemen randevu alın.</p>
+    `
+  },
+  {
+    id: 'sporcu-beslenmesi',
+    num: '04',
+    title: 'Sporcu Beslenmesi',
+    excerpt: 'Performansınızı artıracak, toparlanmanızı hızlandıracak ve hedeflerinize göre tasarlanmış spor diyeti.',
+    img: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=900&auto=format&fit=crop&q=80',
+    body: `
+      <p>Sporcunun performansı antrenman salonunda değil, tabağında şekillenir. Sporcu Beslenmesi programı; amatörden profesyonele, dayanıklılık sporcusundan güç sporcusuna kadar her düzey ve branş için özelleştirilen bilimsel bir yaklaşım sunar.</p>
+      <p>Antrenman öncesi ve sonrası öğün zamanlaması, yarışma günü beslenme stratejisi, hidrasyon planı ve gerektiğinde takviye önerileri programın temel bileşenlerini oluşturur.</p>
+      <ul>
+        <li>Branşa ve antrenman yüküne özel plan</li>
+        <li>Antrenman içi ve sonrası beslenme protokolü</li>
+        <li>Müsabaka dönemi karbonhidrat yükleme stratejisi</li>
+        <li>Güvenli takviye kullanım rehberliği</li>
+      </ul>
+      <p>Beslenmeyi antrenmanın bir parçası haline getirin; farkı ilk haftadan hissedin.</p>
+    `
+  },
+  {
+    id: 'gebelik-emzirme',
+    num: '05',
+    title: 'Gebelik & Emzirme Dönemi',
+    excerpt: 'Anne adayı ve bebek için en doğru besin desteğini, trimestere özel programlarla planlıyoruz.',
+    img: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=900&auto=format&fit=crop&q=80',
+    body: `
+      <p>Gebelik ve emzirme, annenin besin ihtiyacının en yüksek olduğu dönemlerdir. Bu süreçte yapılan beslenme hataları yalnızca anneyi değil, bebeğin uzun vadeli sağlığını da etkileyebilir. Trimestere özel programımız bu kritik dönemi güvenle yönetmenizi sağlar.</p>
+      <p>Folik asit, demir, kalsiyum, D vitamini ve omega-3 gibi kritik besinlerin yeterli alımı; mide bulantısı, ödem ve gebelik şekeri gibi dönemsel sorunlara yönelik özel stratejiler programın odak noktasını oluşturur.</p>
+      <ul>
+        <li>Trimestere göre güncellenen beslenme planı</li>
+        <li>Bulantı ve tat değişimlerine uygun alternatifler</li>
+        <li>Emzirme döneminde süt kalitesini destekleyen besinler</li>
+        <li>Doğum sonrası sağlıklı kilo yönetimi</li>
+      </ul>
+      <p>Hem sizin hem bebeğinizin sağlığı için en doğru beslenme kararlarını birlikte verelim.</p>
+    `
+  },
+  {
+    id: 'hastalik-beslenmesi',
+    num: '06',
+    title: 'Hastalıklarda Beslenme',
+    excerpt: 'Diyabet, tansiyon, kolesterol ve diğer metabolik hastalıklarda tıbbi beslenme tedavisi.',
+    img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=900&auto=format&fit=crop&q=80',
+    body: `
+      <p>Beslenme, pek çok kronik hastalığın hem bir nedeni hem de en güçlü tedavi araçlarından biridir. Hastalıklarda Beslenme hizmetimiz; diyabet, insülin direnci, hipertansiyon, hiperlipidemi, tiroid hastalıkları, polikistik over sendromu (PKOS) ve inflamatuar bağırsak hastalıkları gibi durumlar için tıbbi beslenme tedavisi sunar.</p>
+      <p>Hekim raporları ve kan tahlilleri baz alınarak hazırlanan program, ilaç etkileşimlerini gözetir ve tedaviyi destekler. Tek amaç semptomları yönetmek değil, hastalığın seyrini olumlu yönde etkilemektir.</p>
+      <ul>
+        <li>Kan değerlerine göre kişiselleştirilmiş plan</li>
+        <li>İlaç-besin etkileşimlerine dikkat eden protokol</li>
+        <li>Glisemik indeks kontrolü ve anti-inflamatuar beslenme</li>
+        <li>Hekim ile koordineli takip süreci</li>
+      </ul>
+      <p>Doğru beslenme ile hastalıklarınızı kontrol altına almak ve yaşam kalitenizi artırmak mümkün.</p>
+    `
+  }
+];
+
+function renderGrid() {
+  const grid = document.getElementById('srvGrid');
+  grid.innerHTML = services.map((s, i) => `
+    <div class="card reveal" onclick="showDetail(${i})">
+      <img class="card-img" src="${s.img}" alt="${s.title}" loading="lazy">
+      <div class="card-body">
+        <span class="card-num">${s.num}</span>
+        <div class="card-title">${s.title}</div>
+        <p class="card-excerpt">${s.excerpt}</p>
+        <span class="card-btn">Detayları Gör <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+      </div>
+    </div>
+  `).join('');
+  observeReveal();
+}
+
+function showDetail(i) {
+  const s = services[i];
+  document.getElementById('dNum').textContent = s.num + ' — ' + s.title.toUpperCase().substring(0,20);
+  document.getElementById('dTitle').textContent = s.title;
+  document.getElementById('dImg').src = s.img;
+  document.getElementById('dImg').alt = s.title;
+  document.getElementById('dBody').innerHTML = s.body;
+  document.getElementById('listView').style.display = 'none';
+  document.getElementById('pageHeader').style.display = 'none';
+  document.getElementById('detailView').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  history.replaceState(null, '', '#' + s.id);
+}
+
+function showList() {
+  document.getElementById('detailView').style.display = 'none';
+  document.getElementById('listView').style.display = 'block';
+  document.getElementById('pageHeader').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  history.replaceState(null, '', window.location.pathname);
+}
+
+function observeReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+renderGrid();
+
+// Hash'e göre doğrudan hizmet aç
+const hash = window.location.hash.replace('#', '');
+if (hash) {
+  const idx = services.findIndex(s => s.id === hash);
+  if (idx !== -1) showDetail(idx);
+}
+
+// Cursor
+const dot = document.getElementById('dot');
+const ring = document.getElementById('ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; });
+(function animRing() { rx += (mx - rx) * .13; ry += (my - ry) * .13; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('a,button,.card').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.classList.add('hovered'); });
+  el.addEventListener('mouseleave', () => { ring.classList.remove('hovered'); });
+});
+
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>
