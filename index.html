@@ -135,6 +135,22 @@ h1.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,6vw,
 .srv-arrow svg{width:16px;height:16px;stroke:var(--espresso-light);fill:none;stroke-width:2;transition:stroke .3s}
 .service-row:hover .srv-arrow svg{stroke:var(--white)}
 
+/* VKİ TANITIM */
+#bmi-tanitim{padding:8rem 6%;background:var(--beige-mid)}
+.bmi-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.bmi-left h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,3.5vw,3rem);font-weight:300;line-height:1.2;color:var(--espresso);margin-top:1rem}
+.bmi-left h2 em{font-style:italic;color:var(--sage)}
+.bmi-left p{font-size:.9rem;line-height:1.85;color:var(--espresso-light);font-weight:300;margin-top:1.2rem;max-width:420px}
+.bmi-left a{display:inline-flex;align-items:center;gap:.6rem;margin-top:2rem;background:var(--sage);color:var(--white);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;padding:.8rem 1.8rem;border-radius:2px;text-decoration:none;transition:background .3s}
+.bmi-left a:hover{background:var(--espresso)}
+.bmi-preview{background:var(--white);border-radius:8px;padding:2rem;box-shadow:0 8px 40px rgba(44,31,20,.09)}
+.bmi-cats{display:flex;flex-direction:column;gap:.7rem}
+.bmi-cat{display:flex;align-items:center;gap:1rem}
+.bmi-cat-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.bmi-cat-label{font-size:.8rem;color:var(--espresso);font-weight:400;flex:1}
+.bmi-cat-range{font-size:.75rem;color:var(--espresso-light);font-weight:300}
+@media(max-width:900px){.bmi-inner{grid-template-columns:1fr;gap:3rem}#bmi-tanitim{padding:5rem 5%}}
+
 /* REFERANSLAR */
 #referanslar{padding:9rem 6%;background:var(--espresso);position:relative;overflow:hidden}
 .ref-bg-text{position:absolute;bottom:-2rem;right:-1rem;font-family:'Cormorant Garamond',serif;font-size:14rem;font-weight:600;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;user-select:none;white-space:nowrap}
@@ -347,6 +363,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   <a href="#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
   <a href="hizmetler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Hizmetler</a>
   <a href="#tarifler" onclick="closeMobileMenu()">Tarifler</a>
+  <a href="bmi.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">VKİ Hesapla</a>
   <a href="#referanslar" onclick="closeMobileMenu()">Referanslar</a>
   <a href="blog.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Blog</a>
   <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20randevu%20almak%20istiyorum." target="_blank" rel="noopener" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
@@ -360,6 +377,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
       <li><a href="#hakkimda">Hakkımda</a></li>
       <li><a href="hizmetler.html" target="_blank" rel="noopener">Hizmetler</a></li>
       <li><a href="#tarifler">Tarifler</a></li>
+      <li><a href="bmi.html" target="_blank" rel="noopener">VKİ Hesapla</a></li>
       <li><a href="#referanslar">Referanslar</a></li>
       <li><a href="blog.html" target="_blank" rel="noopener">Blog</a></li>
     </ul>
@@ -514,6 +532,30 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
         <div class="srv-desc">Diyabet, tansiyon, kolesterol ve diğer metabolik hastalıklarda tıbbi beslenme tedavisi.</div>
       </div>
       <div class="srv-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- VKİ TANITIM -->
+<section id="bmi-tanitim">
+  <div class="bmi-inner">
+    <div class="bmi-left reveal">
+      <div class="section-eyebrow"><div class="e-line"></div><span class="e-text">Sağlık Aracı</span></div>
+      <h2>Vücut Kitle<br><em>İndeksinizi</em> öğrenin</h2>
+      <p>Boy ve kilonuzu girerek hangi kategoride olduğunuzu saniyeler içinde öğrenin. Bilimsel kategorilendirme ve kişisel değerlendirme için ücretsiz aracımızı kullanın.</p>
+      <a href="bmi.html" target="_blank" rel="noopener">VKİ Hesapla <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="bmi-preview reveal">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--espresso);margin-bottom:1.2rem">VKİ Kategorileri</div>
+      <div class="bmi-cats">
+        <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#74b9e0"></div><span class="bmi-cat-label">Zayıf</span><span class="bmi-cat-range">&lt; 18.5</span></div>
+        <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#6B8F64"></div><span class="bmi-cat-label">Normal</span><span class="bmi-cat-range">18.5 – 24.9</span></div>
+        <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#d4a017"></div><span class="bmi-cat-label">Fazla Kilolu</span><span class="bmi-cat-range">25.0 – 29.9</span></div>
+        <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#e07b3a"></div><span class="bmi-cat-label">Obez — Sınıf I</span><span class="bmi-cat-range">30.0 – 34.9</span></div>
+        <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#c0392b"></div><span class="bmi-cat-label">Obez — Sınıf II</span><span class="bmi-cat-range">35.0 – 39.9</span></div>
+        <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#8e1a0e"></div><span class="bmi-cat-label">Morbid Obez</span><span class="bmi-cat-range">≥ 40</span></div>
+      </div>
+      <div style="margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--beige);font-size:.75rem;color:var(--espresso-light);font-weight:300;line-height:1.6">Sonuç ne olursa olsun, doğru beslenme programı için Dyt. Ayşegül Tekeli ile iletişime geçin.</div>
     </div>
   </div>
 </section>

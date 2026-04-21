@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VKİ Hesaplama — Diyetisyen Ayşegül Tekeli</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#6B8F64;--sage-light:#9BBF95;--sage-pale:#DCE9DA;
+  --beige:#E8DDD0;--beige-light:#FAF8F5;--beige-mid:#F0E9E0;
+  --espresso:#2C1F14;--espresso-mid:#5A3E2B;--espresso-light:#8B6E56;
+  --white:#fff;--off:#FDFCFA;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--beige-light);color:var(--espresso);overflow-x:hidden;cursor:none}
+
+.cursor-dot{position:fixed;width:8px;height:8px;background:var(--sage);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:2px solid var(--sage);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .3s,height .3s,background .3s}
+.cursor-ring.hovered{width:64px;height:64px;background:rgba(107,143,100,.1)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.6rem 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(250,248,245,.95);backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(60,42,30,.08)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;letter-spacing:.04em;color:var(--espresso);text-decoration:none;line-height:1.2}
+.nav-r{display:flex;align-items:center;gap:2.5rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--sage)}
+.nav-cta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--espresso);color:var(--white);padding:.6rem 1.4rem;border-radius:2px;text-decoration:none;transition:background .3s}
+.nav-cta:hover{background:var(--sage)}
+
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:none;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--espresso);border-radius:2px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(250,248,245,.97);backdrop-filter:blur(20px);z-index:550;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--espresso);text-decoration:none;letter-spacing:.04em;transition:color .3s}
+.mobile-menu a:hover{color:var(--sage)}
+.mobile-menu .m-cta{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sage);color:var(--white);padding:.8rem 2rem;border-radius:2px;font-family:'Inter',sans-serif}
+
+/* PAGE HEADER */
+.page-header{padding:10rem 6% 5rem;background:var(--beige-mid);text-align:center}
+.eyebrow{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:1.2rem}
+.e-line{width:30px;height:1px;background:var(--sage)}
+.e-text{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:500}
+.page-header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:300;line-height:1.1;color:var(--espresso)}
+.page-header h1 em{font-style:italic;color:var(--sage)}
+.page-header p{margin-top:1.2rem;font-size:.95rem;color:var(--espresso-light);font-weight:300;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.8}
+
+/* CALCULATOR */
+.calc-wrap{max-width:860px;margin:0 auto;padding:6rem 6% 8rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+
+.calc-form{background:var(--white);border-radius:8px;padding:2.5rem;box-shadow:0 4px 30px rgba(44,31,20,.07)}
+.calc-form h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;color:var(--espresso);margin-bottom:.5rem}
+.calc-form p{font-size:.82rem;color:var(--espresso-light);line-height:1.7;margin-bottom:2rem;font-weight:300}
+
+.field{margin-bottom:1.4rem}
+.field label{display:block;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--espresso-light);margin-bottom:.5rem;font-weight:500}
+.input-group{display:flex;align-items:center;border:1px solid rgba(60,42,30,.15);border-radius:4px;overflow:hidden;transition:border-color .3s}
+.input-group:focus-within{border-color:var(--sage)}
+.input-group input{flex:1;border:none;outline:none;padding:.75rem 1rem;font-size:.95rem;font-family:'Inter',sans-serif;color:var(--espresso);background:transparent}
+.input-group span{padding:.75rem 1rem;font-size:.78rem;color:var(--espresso-light);background:var(--beige-mid);letter-spacing:.06em}
+
+.gender-row{display:flex;gap:.8rem;margin-bottom:1.4rem}
+.gender-btn{flex:1;padding:.65rem;border:1px solid rgba(60,42,30,.15);border-radius:4px;background:transparent;font-family:'Inter',sans-serif;font-size:.78rem;letter-spacing:.08em;color:var(--espresso-light);cursor:none;transition:all .3s}
+.gender-btn.active{background:var(--sage);border-color:var(--sage);color:var(--white)}
+
+.calc-btn{width:100%;padding:.9rem;background:var(--espresso);color:var(--white);border:none;border-radius:4px;font-family:'Inter',sans-serif;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;cursor:none;transition:background .3s;margin-top:.5rem}
+.calc-btn:hover{background:var(--sage)}
+
+/* RESULT */
+.result-box{display:none;background:var(--white);border-radius:8px;padding:2.5rem;box-shadow:0 4px 30px rgba(44,31,20,.07);position:sticky;top:7rem}
+.result-box.show{display:block}
+
+.bmi-display{text-align:center;margin-bottom:2rem}
+.bmi-number{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:300;line-height:1;color:var(--espresso)}
+.bmi-unit{font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--espresso-light);margin-top:.3rem}
+
+/* Gauge */
+.gauge-wrap{margin:1.5rem 0}
+.gauge-bar{height:10px;border-radius:5px;background:linear-gradient(to right,#74b9e0 0%,#6B8F64 18%,#a8c97f 25%,#f0c040 37%,#e07b3a 50%,#c0392b 100%);position:relative;margin-bottom:.5rem}
+.gauge-needle{position:absolute;top:50%;transform:translate(-50%,-50%);width:16px;height:16px;background:var(--espresso);border-radius:50%;border:3px solid var(--white);box-shadow:0 2px 6px rgba(0,0,0,.25);transition:left .8s cubic-bezier(.34,1.56,.64,1)}
+.gauge-labels{display:flex;justify-content:space-between;font-size:.6rem;color:var(--espresso-light);letter-spacing:.06em}
+
+.category-badge{display:inline-block;padding:.4rem 1.1rem;border-radius:20px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin:1rem 0}
+
+.result-text{font-size:.85rem;line-height:1.8;color:var(--espresso-light);font-weight:300;margin-bottom:1.5rem}
+
+.result-cta{display:flex;align-items:center;gap:.6rem;width:100%;padding:.85rem 1.2rem;background:var(--sage);color:var(--white);border:none;border-radius:4px;font-family:'Inter',sans-serif;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;justify-content:center;transition:background .3s;cursor:none}
+.result-cta:hover{background:var(--espresso)}
+
+/* INFO TABLE */
+.info-section{max-width:860px;margin:0 auto;padding:0 6% 8rem}
+.info-section h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;color:var(--espresso);margin-bottom:1.5rem}
+.bmi-table{width:100%;border-collapse:collapse;font-size:.84rem}
+.bmi-table th{text-align:left;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--espresso-light);padding:.6rem 1rem;border-bottom:2px solid var(--beige)}
+.bmi-table td{padding:.75rem 1rem;border-bottom:1px solid var(--beige);color:var(--espresso);font-weight:300}
+.bmi-table tr:last-child td{border-bottom:none}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.5rem;vertical-align:middle}
+
+/* FOOTER */
+footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(255,255,255,.7);letter-spacing:.04em}
+.f-links{display:flex;gap:2rem;list-style:none;justify-content:center}
+.f-links a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;transition:color .3s}
+.f-links a:hover{color:rgba(255,255,255,.9)}
+.f-copy{font-size:.68rem;color:rgba(255,255,255,.3);text-align:right}
+
+@media(max-width:900px){
+  body{cursor:auto}
+  .cursor-dot,.cursor-ring{display:none}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .calc-wrap{grid-template-columns:1fr;gap:2rem;padding:4rem 5% 5rem}
+  .result-box{position:static}
+}
+@media(max-width:600px){
+  .page-header{padding:8rem 5% 4rem}
+  .info-section{padding:0 5% 5rem}
+  footer{grid-template-columns:1fr;text-align:center}
+  .f-copy{text-align:center}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="dot"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
+  <a href="hizmetler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Hizmetler</a>
+  <a href="index.html#tarifler" onclick="closeMobileMenu()">Tarifler</a>
+  <a href="bmi.html" onclick="closeMobileMenu()">VKİ Hesapla</a>
+  <a href="index.html#referanslar" onclick="closeMobileMenu()">Referanslar</a>
+  <a href="blog.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Blog</a>
+  <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20randevu%20almak%20istiyorum." target="_blank" rel="noopener" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
+</div>
+
+<nav>
+  <a href="index.html" class="logo">Diyetisyen Ayşegül Tekeli</a>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="index.html#hakkimda">Hakkımda</a></li>
+      <li><a href="hizmetler.html" target="_blank" rel="noopener">Hizmetler</a></li>
+      <li><a href="index.html#tarifler">Tarifler</a></li>
+      <li><a href="bmi.html" class="active">VKİ Hesapla</a></li>
+      <li><a href="index.html#referanslar">Referanslar</a></li>
+      <li><a href="blog.html" target="_blank" rel="noopener">Blog</a></li>
+    </ul>
+    <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20randevu%20almak%20istiyorum." target="_blank" rel="noopener" class="nav-cta">Randevu Al</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow"><div class="e-line"></div><span class="e-text">Sağlık Aracı</span></div>
+  <h1>Vücut Kitle <em>İndeksi</em></h1>
+  <p>Boy ve kilonuzu girerek VKİ değerinizi öğrenin. Sonuç ne olursa olsun, uzman desteğiyle doğru adımı atın.</p>
+</div>
+
+<div class="calc-wrap">
+  <!-- FORM -->
+  <div class="calc-form">
+    <h2>Hesaplayın</h2>
+    <p>VKİ (Vücut Kitle İndeksi), kilonuzun boyunuzun karesine oranıdır ve genel sağlık durumunuz hakkında ön bilgi sunar.</p>
+
+    <div style="margin-bottom:1.4rem">
+      <div class="field" style="margin-bottom:.5rem"><label>Cinsiyet</label></div>
+      <div class="gender-row">
+        <button class="gender-btn active" id="gKadin" onclick="setGender('kadin')">Kadın</button>
+        <button class="gender-btn" id="gErkek" onclick="setGender('erkek')">Erkek</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Yaş</label>
+      <div class="input-group">
+        <input type="number" id="yas" placeholder="28" min="15" max="100">
+        <span>yaş</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Boy</label>
+      <div class="input-group">
+        <input type="number" id="boy" placeholder="165" min="100" max="250">
+        <span>cm</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Kilo</label>
+      <div class="input-group">
+        <input type="number" id="kilo" placeholder="65" min="30" max="300">
+        <span>kg</span>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="hesapla()">Hesapla</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-box" id="resultBox">
+    <div class="bmi-display">
+      <div class="bmi-number" id="bmiVal">—</div>
+      <div class="bmi-unit">VKİ değeriniz</div>
+    </div>
+
+    <div class="gauge-wrap">
+      <div class="gauge-bar">
+        <div class="gauge-needle" id="needle" style="left:0%"></div>
+      </div>
+      <div class="gauge-labels">
+        <span>16</span><span>18.5</span><span>25</span><span>30</span><span>35</span><span>40</span>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <span class="category-badge" id="catBadge"></span>
+    </div>
+
+    <p class="result-text" id="resultText"></p>
+
+    <a class="result-cta" href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20VK%C4%B0%20sonucumu%20de%C4%9Ferlendirmenizi%20istiyorum." target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Dyt. Ayşegül ile Görüş
+    </a>
+  </div>
+</div>
+
+<!-- BMI TABLE -->
+<div class="info-section">
+  <h3>VKİ Kategorileri <em style="font-style:italic;color:var(--sage)">(DSÖ)</em></h3>
+  <table class="bmi-table">
+    <thead>
+      <tr>
+        <th>Kategori</th>
+        <th>VKİ Aralığı</th>
+        <th>Sağlık Riski</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="dot" style="background:#74b9e0"></span>Zayıf</td><td>&lt; 18.5</td><td>Orta düzeyde artmış</td></tr>
+      <tr><td><span class="dot" style="background:#6B8F64"></span>Normal</td><td>18.5 – 24.9</td><td>Düşük</td></tr>
+      <tr><td><span class="dot" style="background:#f0c040"></span>Fazla Kilolu</td><td>25.0 – 29.9</td><td>Artmış</td></tr>
+      <tr><td><span class="dot" style="background:#e07b3a"></span>Obez (Sınıf I)</td><td>30.0 – 34.9</td><td>Yüksek</td></tr>
+      <tr><td><span class="dot" style="background:#c0392b"></span>Obez (Sınıf II)</td><td>35.0 – 39.9</td><td>Çok yüksek</td></tr>
+      <tr><td><span class="dot" style="background:#8e1a0e"></span>Morbid Obez</td><td>≥ 40</td><td>Son derece yüksek</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:.78rem;color:var(--espresso-light);margin-top:1.2rem;line-height:1.7;font-weight:300">* VKİ tek başına bir tanı aracı değildir. Kas kütlesi, kemik yoğunluğu, yaş ve cinsiyet gibi faktörler değerlendirmeyi etkiler. Kesin sonuç için bir diyetisyen ile görüşün.</p>
+</div>
+
+<footer>
+  <div class="f-logo">Diyetisyen Ayşegül Tekeli</div>
+  <ul class="f-links">
+    <li><a href="index.html#hakkimda">Hakkımda</a></li>
+    <li><a href="hizmetler.html">Hizmetler</a></li>
+    <li><a href="index.html#randevu">İletişim</a></li>
+  </ul>
+  <div class="f-copy">© 2025 Diyetisyen Ayşegül Tekeli</div>
+</footer>
+
+<script>
+let gender = 'kadin';
+
+function setGender(g) {
+  gender = g;
+  document.getElementById('gKadin').classList.toggle('active', g === 'kadin');
+  document.getElementById('gErkek').classList.toggle('active', g === 'erkek');
+}
+
+const categories = [
+  { max: 18.5, label: 'Zayıf', color: '#74b9e0', bg: '#e8f4fb',
+    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>zayıf</strong> kategorisinde yer almaktadır. Bu durum yetersiz enerji ve besin alımına, bağışıklık sisteminin zayıflamasına, kas kaybına ve kemik erimesine yol açabilir. ${g==='kadin'?'Kadınlarda':'Erkeklerde'} zayıflık hormonal dengesizliklerle de ilişkilendirilmektedir. Sağlıklı kilo alımı için doğru besin gruplarını dengeli tüketmek şarttır. <br><br>Diyetisyen Ayşegül Tekeli ile bir görüşme yaparak vücudunuzun ihtiyaçlarına özel bir beslenme programı oluşturabilirsiniz.` },
+  { max: 25,   label: 'Normal', color: '#6B8F64', bg: '#e8f0e7',
+    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>normal kilolu</strong> kategorisinde yer almaktadır. Bu, kardiyovasküler hastalıklar, diyabet ve diğer metabolik sorunlar açısından düşük risk anlamına gelir. Tebrikler! Ancak normal VKİ, her zaman ideal vücut bileşimine işaret etmez; kas-yağ oranı ve beslenme kalitesi de kritik önem taşır. <br><br>Sağlıklı kilonuzu korumak ve beslenmenizi optimize etmek için Diyetisyen Ayşegül Tekeli ile iletişime geçebilirsiniz.` },
+  { max: 30,   label: 'Fazla Kilolu', color: '#d4a017', bg: '#fdf5e0',
+    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>fazla kilolu</strong> kategorisinde yer almaktadır. Bu aralık; yüksek tansiyon, insülin direnci, eklem sorunları ve uyku apnesi gibi durumlar için artan bir riski işaret eder. ${g==='kadin'?'Kadınlarda':'Erkeklerde'} abdominal yağlanma bu riskleri daha da artırabilir. Erken müdahale, hastalık riskini belirgin biçimde azaltır. <br><br>Diyetisyen Ayşegül Tekeli eşliğinde hazırlanacak kişisel bir programla sağlıklı kilonuza kavuşabilirsiniz.` },
+  { max: 35,   label: 'Obez — Sınıf I', color: '#e07b3a', bg: '#fdf0e8',
+    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>Sınıf I Obezite</strong> kategorisindedir. Bu düzeyde tip 2 diyabet, kalp hastalıkları, hipertansiyon ve bazı kanser türleri riski önemli ölçüde artar. Yalnızca diyet değil; yaşam tarzı değişikliği ve uzman desteği bu süreçte belirleyici rol oynar. <br><br>Diyetisyen Ayşegül Tekeli, size özel ve sürdürülebilir bir beslenme planıyla bu süreçte yanınızda olacaktır.` },
+  { max: 40,   label: 'Obez — Sınıf II', color: '#c0392b', bg: '#faeaea',
+    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>Sınıf II Obezite</strong> kategorisindedir. Bu kategori ciddi metabolik ve kardiyovasküler sağlık riskleri taşımaktadır. Tıbbi beslenme tedavisi, profesyonel takip ve kapsamlı bir yaşam tarzı değişikliği gereklidir. Bu süreçte yalnız değilsiniz. <br><br>Diyetisyen Ayşegül Tekeli ile vakit kaybetmeden iletişime geçerek doğru adımı atabilirsiniz.` },
+  { max: Infinity, label: 'Morbid Obez', color: '#8e1a0e', bg: '#f5e5e5',
+    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>Morbid Obezite</strong> kategorisindedir. Bu durum; diyabet, kalp yetmezliği, solunum güçlüğü ve hareket kısıtlılığı gibi ciddi komplikasyon riskiyle ilişkilidir ve mutlaka multidisipliner bir yaklaşım gerektirir. <br><br>Diyetisyen Ayşegül Tekeli, tıbbi beslenme tedavisi konusundaki uzmanlığıyla sizi en doğru şekilde yönlendirecektir. Lütfen vakit kaybetmeden iletişime geçin.` }
+];
+
+function hesapla() {
+  const boy = parseFloat(document.getElementById('boy').value);
+  const kilo = parseFloat(document.getElementById('kilo').value);
+  const yas = parseFloat(document.getElementById('yas').value);
+
+  if (!boy || !kilo || boy < 100 || kilo < 20) {
+    alert('Lütfen geçerli boy ve kilo değerleri girin.');
+    return;
+  }
+
+  const boyM = boy / 100;
+  const bmi = (kilo / (boyM * boyM)).toFixed(1);
+  const bmiNum = parseFloat(bmi);
+
+  const cat = categories.find(c => bmiNum < c.max);
+
+  document.getElementById('bmiVal').textContent = bmi;
+  document.getElementById('catBadge').textContent = cat.label;
+  document.getElementById('catBadge').style.background = cat.bg;
+  document.getElementById('catBadge').style.color = cat.color;
+  document.getElementById('resultText').innerHTML = cat.text(bmi, gender);
+
+  // Gauge needle — map bmi 16-40 to 0-100%
+  const pct = Math.min(100, Math.max(0, ((bmiNum - 16) / (40 - 16)) * 100));
+  document.getElementById('needle').style.left = pct + '%';
+
+  const box = document.getElementById('resultBox');
+  box.classList.add('show');
+  setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Enter') hesapla(); });
+
+// Cursor
+const dot = document.getElementById('dot');
+const ring = document.getElementById('ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; });
+(function animRing() { rx += (mx - rx) * .13; ry += (my - ry) * .13; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animRing); })();
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+});
+
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>
