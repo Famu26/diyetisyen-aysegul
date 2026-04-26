@@ -86,11 +86,9 @@ h1.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,6vw,
 
 /* HAKKIMDA */
 #hakkimda{padding:9rem 6%;background:var(--off);position:relative;overflow:hidden}
-.about-decor{display:none}
-.about-decor2{display:none}
-.about-grid{display:grid;grid-template-columns:1fr;align-items:start;max-width:520px;margin:0;position:relative;z-index:1}
-.about-photo{position:absolute;right:0;top:0;bottom:0;width:52%;z-index:0;pointer-events:none}
-.about-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.15) 18%,rgba(0,0,0,.6) 35%,black 55%);-webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.15) 18%,rgba(0,0,0,.6) 35%,black 55%)}
+.about-decor{position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(107,143,100,.15)}
+.about-decor2{position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;border:1px solid rgba(107,143,100,.1)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start;max-width:1100px;margin:0 auto}
 .about-left .section-eyebrow{margin-bottom:1.5rem}
 .about-left h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,4vw,3.6rem);font-weight:300;line-height:1.15;margin-bottom:2.5rem;color:var(--espresso)}
 .about-left h2 em{font-style:italic;color:var(--sage)}
@@ -297,8 +295,10 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
 
   /* About */
   #hakkimda{padding:5rem 5%}
-  .about-grid{max-width:100%}
-  .about-photo{display:none}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .about-right{padding-top:0}
+  .about-img-frame{aspect-ratio:4/3;max-width:100%;margin:0 auto 2rem}
+  .about-decor,.about-decor2{display:none}
 
   /* Services */
   #hizmetler{padding:5rem 5%}
@@ -468,9 +468,20 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
         <div class="exp-item"><div class="exp-dot"></div><span class="exp-text">Yeme Bozuklukları</span></div>
       </div>
     </div>
-  </div>
-  <div class="about-photo">
-    <img src="aysegul yılbasi.png" alt="Uzman Diyetisyen Ayşegül Tekeli">
+    <div class="about-right reveal">
+      <div class="about-img-frame">
+        <img src="aysegul.webp" alt="Uzman Diyetisyen Ayşegül Tekeli">
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div>
+          <div class="about-card-label">Uzmanlık</div>
+          <div class="about-card-val">Uzman Diyetisyen</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
