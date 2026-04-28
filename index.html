@@ -161,6 +161,25 @@ h1.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,6vw,
 .bmi-cat-range{font-size:.75rem;color:var(--espresso-light);font-weight:300}
 @media(max-width:900px){.bmi-inner{grid-template-columns:1fr;gap:3rem}#bmi-tanitim{padding:5rem 5%}}
 
+/* SDM KALIBRA TANITIM */
+#sdm-tanitim{padding:8rem 6%;background:var(--espresso);position:relative;overflow:hidden}
+#sdm-tanitim::before{content:'';position:absolute;right:-120px;top:-120px;width:500px;height:500px;border-radius:50%;border:1px solid rgba(107,143,100,.15);pointer-events:none}
+.sdm-tanitim-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.sdm-tanitim-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(107,143,100,.2);border:1px solid rgba(107,143,100,.35);color:var(--sage-light);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;padding:.4rem .9rem;border-radius:20px;margin-bottom:1.5rem;font-weight:500}
+.sdm-tanitim-left h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,3.5vw,3rem);font-weight:300;line-height:1.2;color:var(--beige-light);margin-top:1rem}
+.sdm-tanitim-left h2 em{font-style:italic;color:var(--sage-light)}
+.sdm-tanitim-left p{font-size:.9rem;line-height:1.85;color:rgba(232,221,208,.7);font-weight:300;margin-top:1.2rem;max-width:420px}
+.sdm-tanitim-cta{display:inline-flex;align-items:center;gap:.6rem;margin-top:2rem;background:var(--sage);color:var(--white);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;padding:.9rem 2rem;border-radius:2px;text-decoration:none;transition:background .3s,transform .2s}
+.sdm-tanitim-cta:hover{background:var(--sage-light);transform:translateY(-2px)}
+.sdm-tanitim-right{display:flex;flex-direction:column;gap:1.2rem}
+.sdm-stat-pill{background:rgba(250,248,245,.05);border:1px solid rgba(250,248,245,.1);padding:1.4rem 1.6rem;border-radius:4px;display:flex;align-items:center;gap:1.2rem;transition:background .3s}
+.sdm-stat-pill:hover{background:rgba(250,248,245,.1)}
+.sdm-stat-pill-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--sage-light);line-height:1;min-width:64px}
+.sdm-stat-pill-text .pill-label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--beige-light);font-weight:500;margin-bottom:.25rem}
+.sdm-stat-pill-text .pill-desc{font-size:.8rem;color:rgba(232,221,208,.55);font-weight:300;line-height:1.55}
+@media(max-width:900px){.sdm-tanitim-inner{grid-template-columns:1fr;gap:3rem}#sdm-tanitim{padding:5rem 5%}}
+@media(max-width:480px){#sdm-tanitim{padding:4rem 4%}}
+
 /* REFERANSLAR */
 #referanslar{padding:9rem 6%;background:var(--espresso);position:relative;overflow:hidden}
 .ref-bg-text{position:absolute;bottom:-2rem;right:-1rem;font-family:'Cormorant Garamond',serif;font-size:14rem;font-weight:600;color:rgba(255,255,255,.03);line-height:1;pointer-events:none;user-select:none;white-space:nowrap}
@@ -408,11 +427,11 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="closeMobileMenu()">Ana Sayfa</a>
   <a href="#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
   <a href="hizmetler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Hizmetler</a>
   <a href="tarifler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Tarifler</a>
   <a href="bmi.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">BKİ Hesapla</a>
-  <a href="#referanslar" onclick="closeMobileMenu()">Referanslar</a>
   <a href="blog.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Blog</a>
   <a href="sdm-kalibra.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">SDM Kalibra</a>
   <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20randevu%20almak%20istiyorum." target="_blank" rel="noopener" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
@@ -427,7 +446,6 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
       <li><a href="hizmetler.html" target="_blank" rel="noopener">Hizmetler</a></li>
       <li><a href="tarifler.html" target="_blank" rel="noopener">Tarifler</a></li>
       <li><a href="bmi.html" target="_blank" rel="noopener" class="nav-bki"><span class="nav-bki-abbr">BKİ</span><span class="nav-bki-desc">Beden Kitle İndeksi</span></a></li>
-      <li><a href="#referanslar">Referanslar</a></li>
       <li><a href="blog.html" target="_blank" rel="noopener">Blog</a></li>
       <li><a href="sdm-kalibra.html" target="_blank" rel="noopener" class="nav-sdm-link">SDM Kalibra</a></li>
     </ul>
@@ -719,6 +737,47 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   </div>
 </div>
 
+<!-- SDM KALIBRA TANITIM -->
+<section id="sdm-tanitim">
+  <div class="sdm-tanitim-inner">
+    <div class="sdm-tanitim-left reveal">
+      <div class="sdm-tanitim-badge">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Yetkili SDM Kalibra Satıcısı · Mersin
+      </div>
+      <h2>İtalyan bilimi ile<br><em>kalıcı kilo kaybı</em></h2>
+      <p>SDM Kalibra, 20+ yıllık deneyimi ve 200'den fazla bilimsel yayınla desteklenen ketojenik diyet programıdır. Kas kütlesini korurken hızlı yağ yakımı sağlar; tartı ya da ölçüm gerektirmez. Dyt. Ayşegül Tekeli, Mersin'in yetkili SDM Kalibra satıcılarından biridir.</p>
+      <a href="sdm-kalibra.html" target="_blank" rel="noopener" class="sdm-tanitim-cta">
+        SDM Kalibra'yı Keşfet
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="sdm-tanitim-right reveal">
+      <div class="sdm-stat-pill">
+        <div class="sdm-stat-pill-num">20+</div>
+        <div class="sdm-stat-pill-text">
+          <div class="pill-label">Yıllık Deneyim</div>
+          <div class="pill-desc">İtalyan endokrinoloji uzmanı Dr. G. Terracol tarafından geliştirilen bilimsel program</div>
+        </div>
+      </div>
+      <div class="sdm-stat-pill">
+        <div class="sdm-stat-pill-num">200+</div>
+        <div class="sdm-stat-pill-text">
+          <div class="pill-label">Bilimsel Yayın</div>
+          <div class="pill-desc">Hakemli dergilerde yayımlanan çalışmalarla kanıtlanmış etkinlik ve güvenlik</div>
+        </div>
+      </div>
+      <div class="sdm-stat-pill">
+        <div class="sdm-stat-pill-num">2–3.</div>
+        <div class="sdm-stat-pill-text">
+          <div class="pill-label">Günden İtibaren</div>
+          <div class="pill-desc">Ketogenez başlar; yağ yakımı hızlanır, kas kütlesi ve metabolizma korunur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- RANDEVU -->
 <section id="randevu">
   <div class="randevu-header reveal">
@@ -734,11 +793,11 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
       </div>
       <div class="c-item">
         <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12 19.79 19.79 0 011.61 3.5 2 2 0 013.6 1.32h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 9a16 16 0 006.29 6.29l1.75-1.75a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
-        <div><div class="c-label">Telefon</div><div class="c-val">—</div></div>
+        <div><div class="c-label">Telefon</div><div class="c-val"><a href="tel:+905392705074" style="color:inherit;text-decoration:none">0539 270 50 74</a></div></div>
       </div>
       <div class="c-item">
         <div class="c-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg></div>
-        <div><div class="c-label">E-posta</div><div class="c-val">—</div></div>
+        <div><div class="c-label">E-posta</div><div class="c-val"><a href="mailto:dyt.aysegultekeli@gmail.com" style="color:inherit;text-decoration:none">dyt.aysegultekeli@gmail.com</a></div></div>
       </div>
       <div class="c-item">
         <div class="c-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
