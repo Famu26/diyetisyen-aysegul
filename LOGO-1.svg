@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 100">
+  <!-- Apple C-shape body -->
+  <path d="M 52,25 A 27,27 0 1,0 52,79"
+        fill="none" stroke="#6B8F64" stroke-width="9" stroke-linecap="round"/>
+  <!-- Crown leaf 1 (upper-left) -->
+  <path d="M 44,23 C 38,7 18,11 23,21 C 32,21 44,23 44,23 Z" fill="#6B8F64"/>
+  <!-- Crown leaf 2 (upper-right) -->
+  <path d="M 50,16 C 53,1 67,4 64,15 C 58,15 50,16 50,16 Z" fill="#6B8F64"/>
+  <!-- Text -->
+  <text x="71" y="78" font-family="Pacifico, cursive" font-size="53" fill="#2C1F14">Ayşegül Tekeli</text>
+</svg>
