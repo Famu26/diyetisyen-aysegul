@@ -285,6 +285,16 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   .contact-grid{gap:3rem}
   .bmi-inner{grid-template-columns:1fr;gap:3rem}
   #bmi-tanitim{padding:5rem 5%}
+  .ref-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .blog-grid{grid-template-columns:1fr}
+  .blog-card:nth-child(1){grid-column:auto}
+  .ref-grid{grid-template-columns:1fr}
+  .about-grid{gap:2.5rem}
+  .contact-grid{grid-template-columns:1fr;gap:2rem}
+  .form-wrap{padding:1.8rem 1.2rem}
+  .form-row{grid-template-columns:1fr}
 }
 
 @media(max-width:768px){
@@ -367,11 +377,22 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
 @media(max-width:480px){
   nav{padding:1rem 4%}
   .logo{font-size:1.6rem}.logo-apple{width:24px;height:27px}
+  .mobile-menu a{font-size:1.5rem}
+  .mobile-menu{gap:1.8rem}
   h1.hero-title{font-size:clamp(2rem,9vw,2.8rem)}
+  #hero{padding:6rem 4% 3.5rem}
+  .hero-desc{font-size:.84rem}
   #hakkimda,#hizmetler,#referanslar,#blog,#randevu,#bmi-tanitim{padding:3.5rem 4%}
   .about-left h2{font-size:1.8rem}
+  .about-text{font-size:.85rem}
   .services-top h2{font-size:2rem}
   .service-row{grid-template-columns:34px 1fr auto;gap:.8rem}
+  .srv-name{font-size:1.1rem}
+  .srv-desc{font-size:.75rem}
+  .form-wrap{padding:1.5rem 1rem}
+  .fg input,.fg select,.fg textarea{font-size:16px}
+  .blog-modal-header{padding:1.5rem 1.2rem 0}
+  .blog-modal-body{padding:1.2rem 1.2rem 2rem;font-size:.85rem}
   .wa-float{width:50px;height:50px}
   .wa-float svg{width:24px;height:24px}
   .wa-bubble{display:none}

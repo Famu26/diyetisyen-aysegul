@@ -87,14 +87,48 @@ nav{position:sticky;top:0;z-index:100;background:rgba(245,240,235,.95);backdrop-
 .nutrition-label{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--espresso-light);margin-top:.25rem}
 .recipe-note{background:rgba(122,158,126,.08);border-left:3px solid var(--sage);padding:1rem 1.2rem;border-radius:0 3px 3px 0;font-size:.82rem;color:var(--espresso-light);line-height:1.7;font-style:italic}
 
+@media(max-width:768px){
+  nav{padding:1rem 5%}
+  .logo{font-size:1.9rem}.logo-apple{width:27px;height:31px}
+  .page-header{padding:4rem 5% 2.5rem}
+  .page-header h1{font-size:clamp(2rem,7vw,3rem)}
+  .page-header p{font-size:.85rem}
+  .filter-bar{padding:0 5% 2rem;gap:.6rem}
+  .recipes-grid{padding:0 5% 4rem;gap:1.5rem}
+  .modal-overlay{padding:1rem;align-items:flex-end}
+  .modal{border-radius:4px 4px 0 0}
+}
 @media(max-width:640px){
-  .page-header{padding:3.5rem 5% 2rem}
-  .recipes-grid{grid-template-columns:1fr;padding:0 5% 4rem;gap:1.2rem}
+  .page-header{padding:3rem 5% 2rem}
+  .recipes-grid{grid-template-columns:1fr;padding:0 5% 3rem;gap:1.2rem}
+  .card-img{height:180px}
   .modal-body{padding:1.5rem 1.4rem 2rem}
   .ingredients-list{grid-template-columns:1fr}
   .nutrition-grid{grid-template-columns:repeat(2,1fr)}
   .modal-img{height:200px}
   .modal-title{font-size:1.6rem}
+}
+@media(max-width:480px){
+  nav{padding:.9rem 4%}
+  .logo{font-size:1.6rem}.logo-apple{width:24px;height:27px}
+  .nav-back{font-size:.65rem}
+  .page-header{padding:2.5rem 4% 1.5rem}
+  .page-header h1{font-size:clamp(1.7rem,8vw,2.2rem)}
+  .page-header p{font-size:.8rem;max-width:100%}
+  .filter-bar{padding:0 4% 1.5rem;gap:.5rem}
+  .filter-btn{font-size:.62rem;padding:.4rem .85rem}
+  .recipes-grid{grid-template-columns:1fr;padding:0 4% 3rem;gap:1rem}
+  .card-img{height:160px}
+  .card-title{font-size:1.2rem}
+  .card-body{padding:1.2rem}
+  .modal-overlay{padding:.5rem;align-items:flex-end}
+  .modal-img{height:160px}
+  .modal-body{padding:1.2rem 1rem 2rem}
+  .modal-title{font-size:1.4rem}
+  .nutrition-grid{grid-template-columns:repeat(2,1fr)}
+  .ingredients-list{grid-template-columns:1fr}
+  .section-label{font-size:.6rem}
+  .prep-text{font-size:.82rem}
 }
 </style>
 </head>
