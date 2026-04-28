@@ -30,6 +30,10 @@ nav.scrolled{background:rgba(250,248,245,.88);backdrop-filter:blur(20px);padding
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;transition:color .3s;font-weight:400}
 .nav-links a:hover{color:var(--sage)}
+.nav-bki{display:flex;flex-direction:column;align-items:center;gap:.1rem;text-transform:none!important;letter-spacing:0!important}
+.nav-bki-abbr{font-size:.82rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;line-height:1;color:var(--espresso);transition:color .3s}
+.nav-bki-desc{font-size:.5rem;letter-spacing:.09em;text-transform:uppercase;color:var(--espresso-light);line-height:1;white-space:nowrap;transition:color .3s}
+.nav-bki:hover .nav-bki-abbr,.nav-bki:hover .nav-bki-desc{color:var(--sage)}
 .nav-cta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--espresso);color:var(--white);padding:.6rem 1.4rem;border-radius:2px;text-decoration:none;font-weight:400;transition:background .3s}
 .nav-cta:hover{background:var(--sage)}
 
@@ -377,7 +381,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   <a href="#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
   <a href="hizmetler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Hizmetler</a>
   <a href="tarifler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Tarifler</a>
-  <a href="bmi.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">VKİ Hesapla</a>
+  <a href="bmi.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">BKİ Hesapla</a>
   <a href="#referanslar" onclick="closeMobileMenu()">Referanslar</a>
   <a href="blog.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Blog</a>
   <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20randevu%20almak%20istiyorum." target="_blank" rel="noopener" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
@@ -391,7 +395,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
       <li><a href="#hakkimda">Hakkımda</a></li>
       <li><a href="hizmetler.html" target="_blank" rel="noopener">Hizmetler</a></li>
       <li><a href="tarifler.html" target="_blank" rel="noopener">Tarifler</a></li>
-      <li><a href="bmi.html" target="_blank" rel="noopener">VKİ Hesapla</a></li>
+      <li><a href="bmi.html" target="_blank" rel="noopener" class="nav-bki"><span class="nav-bki-abbr">BKİ</span><span class="nav-bki-desc">Beden Kitle İndeksi</span></a></li>
       <li><a href="#referanslar">Referanslar</a></li>
       <li><a href="blog.html" target="_blank" rel="noopener">Blog</a></li>
     </ul>
@@ -550,12 +554,12 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   <div class="bmi-inner">
     <div class="bmi-left reveal">
       <div class="section-eyebrow"><div class="e-line"></div><span class="e-text">Sağlık Aracı</span></div>
-      <h2>Vücut Kitle<br><em>İndeksinizi</em> öğrenin</h2>
+      <h2>Beden Kitle<br><em>İndeksinizi</em> öğrenin</h2>
       <p>Boy ve kilonuzu girerek hangi kategoride olduğunuzu saniyeler içinde öğrenin. Bilimsel kategorilendirme ve kişisel değerlendirme için ücretsiz aracımızı kullanın.</p>
-      <a href="bmi.html" target="_blank" rel="noopener">VKİ Hesapla <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <a href="bmi.html" target="_blank" rel="noopener">BKİ Hesapla <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <div class="bmi-preview reveal">
-      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--espresso);margin-bottom:1.2rem">VKİ Kategorileri</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:var(--espresso);margin-bottom:1.2rem">BKİ Kategorileri</div>
       <div class="bmi-cats">
         <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#74b9e0"></div><span class="bmi-cat-label">Zayıf</span><span class="bmi-cat-range">&lt; 18.5</span></div>
         <div class="bmi-cat"><div class="bmi-cat-dot" style="background:#6B8F64"></div><span class="bmi-cat-label">Normal</span><span class="bmi-cat-range">18.5 – 24.9</span></div>

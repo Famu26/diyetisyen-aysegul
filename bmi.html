@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VKİ Hesaplama — Diyetisyen Ayşegül Tekeli</title>
+<title>BKİ Hesaplama — Diyetisyen Ayşegül Tekeli</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -26,6 +26,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.6rem 6%;display:fl
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;transition:color .3s}
 .nav-links a:hover,.nav-links a.active{color:var(--sage)}
+.nav-bki{display:flex;flex-direction:column;align-items:center;gap:.1rem;text-transform:none!important;letter-spacing:0!important}
+.nav-bki-abbr{font-size:.82rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;line-height:1;color:var(--espresso);transition:color .3s}
+.nav-bki-desc{font-size:.5rem;letter-spacing:.09em;text-transform:uppercase;color:var(--espresso-light);line-height:1;white-space:nowrap;transition:color .3s}
+.nav-bki:hover .nav-bki-abbr,.nav-bki:hover .nav-bki-desc,.nav-bki.active .nav-bki-abbr,.nav-bki.active .nav-bki-desc{color:var(--sage)}
 .nav-cta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--espresso);color:var(--white);padding:.6rem 1.4rem;border-radius:2px;text-decoration:none;transition:background .3s}
 .nav-cta:hover{background:var(--sage)}
 
@@ -154,7 +158,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   <a href="index.html#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
   <a href="hizmetler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Hizmetler</a>
   <a href="index.html#tarifler" onclick="closeMobileMenu()">Tarifler</a>
-  <a href="bmi.html" onclick="closeMobileMenu()">VKİ Hesapla</a>
+  <a href="bmi.html" onclick="closeMobileMenu()">BKİ Hesapla</a>
   <a href="index.html#referanslar" onclick="closeMobileMenu()">Referanslar</a>
   <a href="blog.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Blog</a>
   <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20randevu%20almak%20istiyorum." target="_blank" rel="noopener" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
@@ -167,7 +171,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
       <li><a href="index.html#hakkimda">Hakkımda</a></li>
       <li><a href="hizmetler.html" target="_blank" rel="noopener">Hizmetler</a></li>
       <li><a href="index.html#tarifler">Tarifler</a></li>
-      <li><a href="bmi.html" class="active">VKİ Hesapla</a></li>
+      <li><a href="bmi.html" class="active nav-bki"><span class="nav-bki-abbr">BKİ</span><span class="nav-bki-desc">Beden Kitle İndeksi</span></a></li>
       <li><a href="index.html#referanslar">Referanslar</a></li>
       <li><a href="blog.html" target="_blank" rel="noopener">Blog</a></li>
     </ul>
@@ -180,15 +184,15 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
 
 <div class="page-header">
   <div class="eyebrow"><div class="e-line"></div><span class="e-text">Sağlık Aracı</span></div>
-  <h1>Vücut Kitle <em>İndeksi</em></h1>
-  <p>Boy ve kilonuzu girerek VKİ değerinizi öğrenin. Sonuç ne olursa olsun, uzman desteğiyle doğru adımı atın.</p>
+  <h1>Beden Kitle <em>İndeksi</em></h1>
+  <p>Boy ve kilonuzu girerek BKİ değerinizi öğrenin. Sonuç ne olursa olsun, uzman desteğiyle doğru adımı atın.</p>
 </div>
 
 <div class="calc-wrap">
   <!-- FORM -->
   <div class="calc-form">
     <h2>Hesaplayın</h2>
-    <p>VKİ (Vücut Kitle İndeksi), kilonuzun boyunuzun karesine oranıdır ve genel sağlık durumunuz hakkında ön bilgi sunar.</p>
+    <p>BKİ (Beden Kitle İndeksi), kilonuzun boyunuzun karesine oranıdır ve genel sağlık durumunuz hakkında ön bilgi sunar.</p>
 
     <div style="margin-bottom:1.4rem">
       <div class="field" style="margin-bottom:.5rem"><label>Cinsiyet</label></div>
@@ -229,7 +233,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   <div class="result-box" id="resultBox">
     <div class="bmi-display">
       <div class="bmi-number" id="bmiVal">—</div>
-      <div class="bmi-unit">VKİ değeriniz</div>
+      <div class="bmi-unit">BKİ değeriniz</div>
     </div>
 
     <div class="gauge-wrap">
@@ -256,13 +260,13 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
 
 <!-- BMI TABLE -->
 <div class="info-section">
-  <h3>VKİ Kategorileri <em style="font-style:italic;color:var(--sage)">(DSÖ)</em></h3>
+  <h3>BKİ Kategorileri <em style="font-style:italic;color:var(--sage)">(DSÖ)</em></h3>
   <div class="bmi-table-wrap">
   <table class="bmi-table">
     <thead>
       <tr>
         <th>Kategori</th>
-        <th>VKİ Aralığı</th>
+        <th>BKİ Aralığı</th>
         <th>Sağlık Riski</th>
       </tr>
     </thead>
@@ -276,7 +280,7 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
     </tbody>
   </table>
   </div>
-  <p style="font-size:.78rem;color:var(--espresso-light);margin-top:1.2rem;line-height:1.7;font-weight:300">* VKİ tek başına bir tanı aracı değildir. Kas kütlesi, kemik yoğunluğu, yaş ve cinsiyet gibi faktörler değerlendirmeyi etkiler. Kesin sonuç için bir diyetisyen ile görüşün.</p>
+  <p style="font-size:.78rem;color:var(--espresso-light);margin-top:1.2rem;line-height:1.7;font-weight:300">* BKİ tek başına bir tanı aracı değildir. Kas kütlesi, kemik yoğunluğu, yaş ve cinsiyet gibi faktörler değerlendirmeyi etkiler. Kesin sonuç için bir diyetisyen ile görüşün.</p>
 </div>
 
 <footer>
@@ -300,17 +304,17 @@ function setGender(g) {
 
 const categories = [
   { max: 18.5, label: 'Zayıf', color: '#74b9e0', bg: '#e8f4fb',
-    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>zayıf</strong> kategorisinde yer almaktadır. Bu durum yetersiz enerji ve besin alımına, bağışıklık sisteminin zayıflamasına, kas kaybına ve kemik erimesine yol açabilir. ${g==='kadin'?'Kadınlarda':'Erkeklerde'} zayıflık hormonal dengesizliklerle de ilişkilendirilmektedir. Sağlıklı kilo alımı için doğru besin gruplarını dengeli tüketmek şarttır. <br><br>Diyetisyen Ayşegül Tekeli ile bir görüşme yaparak vücudunuzun ihtiyaçlarına özel bir beslenme programı oluşturabilirsiniz.` },
+    text: (bmi, g) => `BKİ değeriniz <strong>${bmi}</strong> ile <strong>zayıf</strong> kategorisinde yer almaktadır. Bu durum yetersiz enerji ve besin alımına, bağışıklık sisteminin zayıflamasına, kas kaybına ve kemik erimesine yol açabilir. ${g==='kadin'?'Kadınlarda':'Erkeklerde'} zayıflık hormonal dengesizliklerle de ilişkilendirilmektedir. Sağlıklı kilo alımı için doğru besin gruplarını dengeli tüketmek şarttır. <br><br>Diyetisyen Ayşegül Tekeli ile bir görüşme yaparak vücudunuzun ihtiyaçlarına özel bir beslenme programı oluşturabilirsiniz.` },
   { max: 25,   label: 'Normal', color: '#6B8F64', bg: '#e8f0e7',
-    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>normal kilolu</strong> kategorisinde yer almaktadır. Bu, kardiyovasküler hastalıklar, diyabet ve diğer metabolik sorunlar açısından düşük risk anlamına gelir. Tebrikler! Ancak normal VKİ, her zaman ideal vücut bileşimine işaret etmez; kas-yağ oranı ve beslenme kalitesi de kritik önem taşır. <br><br>Sağlıklı kilonuzu korumak ve beslenmenizi optimize etmek için Diyetisyen Ayşegül Tekeli ile iletişime geçebilirsiniz.` },
+    text: (bmi, g) => `BKİ değeriniz <strong>${bmi}</strong> ile <strong>normal kilolu</strong> kategorisinde yer almaktadır. Bu, kardiyovasküler hastalıklar, diyabet ve diğer metabolik sorunlar açısından düşük risk anlamına gelir. Tebrikler! Ancak normal BKİ, her zaman ideal vücut bileşimine işaret etmez; kas-yağ oranı ve beslenme kalitesi de kritik önem taşır. <br><br>Sağlıklı kilonuzu korumak ve beslenmenizi optimize etmek için Diyetisyen Ayşegül Tekeli ile iletişime geçebilirsiniz.` },
   { max: 30,   label: 'Fazla Kilolu', color: '#d4a017', bg: '#fdf5e0',
-    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>fazla kilolu</strong> kategorisinde yer almaktadır. Bu aralık; yüksek tansiyon, insülin direnci, eklem sorunları ve uyku apnesi gibi durumlar için artan bir riski işaret eder. ${g==='kadin'?'Kadınlarda':'Erkeklerde'} abdominal yağlanma bu riskleri daha da artırabilir. Erken müdahale, hastalık riskini belirgin biçimde azaltır. <br><br>Diyetisyen Ayşegül Tekeli eşliğinde hazırlanacak kişisel bir programla sağlıklı kilonuza kavuşabilirsiniz.` },
+    text: (bmi, g) => `BKİ değeriniz <strong>${bmi}</strong> ile <strong>fazla kilolu</strong> kategorisinde yer almaktadır. Bu aralık; yüksek tansiyon, insülin direnci, eklem sorunları ve uyku apnesi gibi durumlar için artan bir riski işaret eder. ${g==='kadin'?'Kadınlarda':'Erkeklerde'} abdominal yağlanma bu riskleri daha da artırabilir. Erken müdahale, hastalık riskini belirgin biçimde azaltır. <br><br>Diyetisyen Ayşegül Tekeli eşliğinde hazırlanacak kişisel bir programla sağlıklı kilonuza kavuşabilirsiniz.` },
   { max: 35,   label: 'Obez — Sınıf I', color: '#e07b3a', bg: '#fdf0e8',
-    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>Sınıf I Obezite</strong> kategorisindedir. Bu düzeyde tip 2 diyabet, kalp hastalıkları, hipertansiyon ve bazı kanser türleri riski önemli ölçüde artar. Yalnızca diyet değil; yaşam tarzı değişikliği ve uzman desteği bu süreçte belirleyici rol oynar. <br><br>Diyetisyen Ayşegül Tekeli, size özel ve sürdürülebilir bir beslenme planıyla bu süreçte yanınızda olacaktır.` },
+    text: (bmi, g) => `BKİ değeriniz <strong>${bmi}</strong> ile <strong>Sınıf I Obezite</strong> kategorisindedir. Bu düzeyde tip 2 diyabet, kalp hastalıkları, hipertansiyon ve bazı kanser türleri riski önemli ölçüde artar. Yalnızca diyet değil; yaşam tarzı değişikliği ve uzman desteği bu süreçte belirleyici rol oynar. <br><br>Diyetisyen Ayşegül Tekeli, size özel ve sürdürülebilir bir beslenme planıyla bu süreçte yanınızda olacaktır.` },
   { max: 40,   label: 'Obez — Sınıf II', color: '#c0392b', bg: '#faeaea',
-    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>Sınıf II Obezite</strong> kategorisindedir. Bu kategori ciddi metabolik ve kardiyovasküler sağlık riskleri taşımaktadır. Tıbbi beslenme tedavisi, profesyonel takip ve kapsamlı bir yaşam tarzı değişikliği gereklidir. Bu süreçte yalnız değilsiniz. <br><br>Diyetisyen Ayşegül Tekeli ile vakit kaybetmeden iletişime geçerek doğru adımı atabilirsiniz.` },
+    text: (bmi, g) => `BKİ değeriniz <strong>${bmi}</strong> ile <strong>Sınıf II Obezite</strong> kategorisindedir. Bu kategori ciddi metabolik ve kardiyovasküler sağlık riskleri taşımaktadır. Tıbbi beslenme tedavisi, profesyonel takip ve kapsamlı bir yaşam tarzı değişikliği gereklidir. Bu süreçte yalnız değilsiniz. <br><br>Diyetisyen Ayşegül Tekeli ile vakit kaybetmeden iletişime geçerek doğru adımı atabilirsiniz.` },
   { max: Infinity, label: 'Morbid Obez', color: '#8e1a0e', bg: '#f5e5e5',
-    text: (bmi, g) => `VKİ değeriniz <strong>${bmi}</strong> ile <strong>Morbid Obezite</strong> kategorisindedir. Bu durum; diyabet, kalp yetmezliği, solunum güçlüğü ve hareket kısıtlılığı gibi ciddi komplikasyon riskiyle ilişkilidir ve mutlaka multidisipliner bir yaklaşım gerektirir. <br><br>Diyetisyen Ayşegül Tekeli, tıbbi beslenme tedavisi konusundaki uzmanlığıyla sizi en doğru şekilde yönlendirecektir. Lütfen vakit kaybetmeden iletişime geçin.` }
+    text: (bmi, g) => `BKİ değeriniz <strong>${bmi}</strong> ile <strong>Morbid Obezite</strong> kategorisindedir. Bu durum; diyabet, kalp yetmezliği, solunum güçlüğü ve hareket kısıtlılığı gibi ciddi komplikasyon riskiyle ilişkilidir ve mutlaka multidisipliner bir yaklaşım gerektirir. <br><br>Diyetisyen Ayşegül Tekeli, tıbbi beslenme tedavisi konusundaki uzmanlığıyla sizi en doğru şekilde yönlendirecektir. Lütfen vakit kaybetmeden iletişime geçin.` }
 ];
 
 function hesapla() {
