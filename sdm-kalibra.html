@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDM Kalibra Diyeti – Diyetisyen Ayşegül Tekeli | Mersin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#6B8F64;--sage-light:#9BBF95;--sage-pale:#DCE9DA;
+  --beige:#E8DDD0;--beige-light:#FAF8F5;--beige-mid:#F0E9E0;
+  --espresso:#2C1F14;--espresso-mid:#5A3E2B;--espresso-light:#8B6E56;
+  --white:#fff;--off:#FDFCFA;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--beige-light);color:var(--espresso);overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+.cursor-dot{position:fixed;width:8px;height:8px;background:var(--sage);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s,width .25s,height .25s,background .25s}
+.cursor-ring{position:fixed;width:38px;height:38px;border:2px solid var(--sage);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:left .1s ease,top .1s ease,width .3s,height .3s,border-color .3s,background .3s}
+.cursor-ring.hovered{width:64px;height:64px;border-color:var(--sage);background:rgba(107,143,100,.1)}
+.cursor-dot.hovered{width:4px;height:4px}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.6rem 6%;display:flex;align-items:center;justify-content:space-between;transition:all .5s}
+nav.scrolled{background:rgba(250,248,245,.88);backdrop-filter:blur(20px);padding:1rem 6%;box-shadow:0 1px 0 rgba(60,42,30,.08)}
+.logo{text-decoration:none;display:flex;align-items:center;white-space:nowrap}.logo-img{height:150px;width:auto;display:block;margin-top:-20px}
+.nav-r{display:flex;align-items:center;gap:2.5rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;transition:color .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--sage)}
+.nav-links .nav-sdm-link{border:1.5px solid var(--sage);color:var(--sage);padding:.4rem .9rem;border-radius:2px;letter-spacing:.1em;font-weight:500;transition:all .3s}
+.nav-links .nav-sdm-link:hover,.nav-links .nav-sdm-link.active{background:var(--sage);color:var(--white)}
+.nav-cta{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--espresso);color:var(--white);padding:.6rem 1.4rem;border-radius:2px;text-decoration:none;font-weight:400;transition:background .3s}
+.nav-cta:hover{background:var(--sage)}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;z-index:600}
+.hamburger span{width:24px;height:2px;background:var(--espresso);border-radius:2px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(250,248,245,.97);backdrop-filter:blur(20px);z-index:550;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--espresso);text-decoration:none;letter-spacing:.04em;transition:color .3s}
+.mobile-menu a:hover{color:var(--sage)}
+.mobile-menu .m-cta{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;background:var(--sage);color:var(--white);padding:.8rem 2rem;border-radius:2px;font-family:'Inter',sans-serif;font-size:.76rem}
+.mobile-menu .m-sdm{font-family:'Inter',sans-serif;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;border:1.5px solid var(--sage);color:var(--sage);padding:.7rem 1.8rem;border-radius:2px}
+.mobile-menu .m-sdm:hover{background:var(--sage);color:var(--white)}
+
+/* HERO */
+.sdm-hero{padding:11rem 6% 6rem;background:linear-gradient(135deg,var(--beige-light) 0%,var(--sage-pale) 55%,var(--beige-mid) 100%);position:relative;overflow:hidden;min-height:72vh;display:flex;align-items:center}
+.sdm-hero-deco{position:absolute;right:-80px;top:-80px;width:520px;height:520px;border-radius:50%;border:1px solid rgba(107,143,100,.2);pointer-events:none}
+.sdm-hero-deco2{position:absolute;right:60px;top:60px;width:340px;height:340px;border-radius:50%;border:1px solid rgba(107,143,100,.15);pointer-events:none}
+.sdm-hero-deco3{position:absolute;left:-60px;bottom:-60px;width:280px;height:280px;border-radius:50%;border:1px solid rgba(107,143,100,.12);pointer-events:none}
+.sdm-hero-content{max-width:700px;position:relative;z-index:1}
+.sdm-badge{display:inline-flex;align-items:center;gap:.6rem;background:var(--sage);color:var(--white);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;padding:.45rem 1.1rem;border-radius:20px;margin-bottom:2rem;font-weight:500}
+.sdm-hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5.5vw,5rem);font-weight:300;line-height:1.1;color:var(--espresso);margin-bottom:1.5rem}
+.sdm-hero h1 em{font-style:italic;color:var(--sage)}
+.sdm-hero-desc{font-size:1rem;line-height:1.9;color:var(--espresso-light);max-width:540px;margin-bottom:2.5rem;font-weight:300}
+.sdm-hero-actions{display:flex;gap:1.5rem;flex-wrap:wrap}
+.btn-primary{background:var(--espresso);color:var(--white);padding:.9rem 2.2rem;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;transition:background .3s,transform .2s;border-radius:2px;font-weight:400}
+.btn-primary:hover{background:var(--sage);transform:translateY(-2px)}
+.btn-outline{border:1.5px solid var(--espresso);color:var(--espresso);padding:.88rem 2.2rem;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.6rem;transition:all .3s;border-radius:2px}
+.btn-outline:hover{border-color:var(--sage);color:var(--sage)}
+
+/* STATS BAR */
+.sdm-stats{background:var(--espresso);padding:3rem 6%;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.sdm-stat-item .num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:var(--sage-light);line-height:1}
+.sdm-stat-item .lbl{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,221,208,.6);margin-top:.4rem;line-height:1.5}
+
+/* SECTIONS */
+.sdm-intro{padding:7rem 6%;background:var(--off)}
+.sdm-benefits{padding:7rem 6%;background:var(--beige-light)}
+.sdm-phases{padding:7rem 6%;background:var(--espresso);position:relative;overflow:hidden}
+.sdm-why{padding:7rem 6%;background:var(--beige-mid)}
+.sdm-cta-sec{padding:6rem 6%;background:var(--sage-pale);text-align:center}
+
+/* EYEBROW */
+.section-eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.section-eyebrow.centered{justify-content:center}
+.ey-line{width:28px;height:1px;background:var(--sage)}
+.ey-line.light{background:var(--sage-light)}
+.ey-text{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sage);font-weight:500}
+.ey-text.light{color:var(--sage-light)}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;color:var(--espresso);line-height:1.15;margin-bottom:1.5rem}
+.section-title em{font-style:italic;color:var(--sage)}
+.section-title.light{color:var(--beige-light)}
+.section-title.light em{color:var(--sage-light)}
+
+/* INTRO GRID */
+.sdm-intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:3.5rem}
+.sdm-intro-text p{font-size:.97rem;line-height:1.9;color:var(--espresso-light);font-weight:300;margin-bottom:1.2rem}
+.sdm-feature-pill{background:var(--beige-mid);border-left:3px solid var(--sage);padding:1.2rem 1.5rem;border-radius:0 4px 4px 0;margin-bottom:1rem}
+.sdm-feature-pill .pill-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--espresso);margin-bottom:.3rem}
+.sdm-feature-pill .pill-text{font-size:.82rem;color:var(--espresso-light);line-height:1.65;font-weight:300}
+
+/* BENEFITS */
+.benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem}
+.benefit-card{background:var(--white);padding:2.2rem;border-radius:4px;border:1px solid rgba(107,143,100,.15);transition:transform .3s,box-shadow .3s}
+.benefit-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(44,31,20,.08)}
+.benefit-icon{width:48px;height:48px;background:var(--sage-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem}
+.benefit-icon svg{width:22px;height:22px;stroke:var(--sage)}
+.benefit-card h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--espresso);margin-bottom:.6rem}
+.benefit-card p{font-size:.85rem;line-height:1.75;color:var(--espresso-light);font-weight:300}
+
+/* PHASES */
+.sdm-phases-deco{position:absolute;left:-100px;bottom:-100px;width:400px;height:400px;border-radius:50%;border:1px solid rgba(107,143,100,.15);pointer-events:none}
+.phases-center{text-align:center;max-width:600px;margin:0 auto}
+.phases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem;margin-top:3.5rem;position:relative;z-index:1}
+.phase-card{background:rgba(250,248,245,.06);border:1px solid rgba(250,248,245,.12);padding:2.5rem;border-radius:4px;transition:background .3s}
+.phase-card:hover{background:rgba(250,248,245,.1)}
+.phase-num{font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--sage-light);line-height:1;margin-bottom:1rem;opacity:.8}
+.phase-card h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--beige-light);margin-bottom:.8rem}
+.phase-card p{font-size:.85rem;line-height:1.75;color:rgba(232,221,208,.7);font-weight:300}
+.phase-duration{display:inline-block;margin-top:1.2rem;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sage-light);border:1px solid var(--sage);padding:.3rem .8rem;border-radius:20px}
+
+/* WHY */
+.sdm-why-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;margin-top:3.5rem}
+.sdm-why-points{display:flex;flex-direction:column;gap:1.8rem}
+.why-point{display:flex;gap:1.2rem;align-items:flex-start}
+.why-check{width:36px;height:36px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+.why-check svg{width:16px;height:16px;stroke:var(--white)}
+.why-point-text h4{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--espresso);margin-bottom:.3rem}
+.why-point-text p{font-size:.85rem;line-height:1.7;color:var(--espresso-light);font-weight:300}
+.sdm-cta-box{background:var(--espresso);padding:3rem;border-radius:4px;text-align:center}
+.sdm-cta-box h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--beige-light);margin-bottom:.8rem;line-height:1.2}
+.sdm-cta-box p{font-size:.88rem;color:rgba(232,221,208,.7);margin-bottom:2rem;line-height:1.75;font-weight:300}
+
+/* CTA SECTION */
+.sdm-cta-sec h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;color:var(--espresso);margin-bottom:1rem}
+.sdm-cta-sec h2 em{font-style:italic;color:var(--sage)}
+.sdm-cta-sec p{font-size:.95rem;color:var(--espresso-light);margin-bottom:2.5rem;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.8}
+.btn-wa{background:#25D366;color:var(--white);padding:1rem 2.5rem;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:inline-flex;align-items:center;gap:.8rem;transition:background .3s,transform .2s;border-radius:2px;font-weight:500}
+.btn-wa:hover{background:#1da851;transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:var(--espresso);padding:3rem 6%;display:flex;flex-direction:column;align-items:center;gap:1.5rem;text-align:center}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;color:var(--beige-light);letter-spacing:.08em}
+.f-links{display:flex;gap:2rem;list-style:none;flex-wrap:wrap;justify-content:center}
+.f-links a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(232,221,208,.6);text-decoration:none;transition:color .3s}
+.f-links a:hover{color:var(--sage-light)}
+.f-copy{font-size:.65rem;letter-spacing:.1em;color:rgba(232,221,208,.35)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  body{cursor:auto}
+  .cursor-dot,.cursor-ring{display:none}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .sdm-intro-grid,.sdm-why-grid{grid-template-columns:1fr;gap:3rem}
+  .benefits-grid{grid-template-columns:repeat(2,1fr)}
+  .phases-grid{grid-template-columns:1fr;gap:1.5rem}
+  .sdm-stats{grid-template-columns:repeat(2,1fr);gap:2rem}
+}
+@media(max-width:640px){
+  .benefits-grid{grid-template-columns:1fr}
+  .sdm-cta-box{padding:2rem}
+}
+@media(max-width:480px){
+  nav{padding:1rem 4%}
+  .logo-img{height:105px}
+  .mobile-menu a{font-size:1.5rem}
+  .mobile-menu{gap:1.8rem}
+  .sdm-hero{padding:8rem 4% 4rem;min-height:auto}
+  .sdm-intro,.sdm-benefits,.sdm-phases,.sdm-why,.sdm-cta-sec{padding:5rem 4%}
+  .sdm-stats{padding:2.5rem 4%;gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="dot"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#hakkimda" onclick="closeMobileMenu()">Hakkımda</a>
+  <a href="hizmetler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Hizmetler</a>
+  <a href="tarifler.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Tarifler</a>
+  <a href="bmi.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">BKİ Hesapla</a>
+  <a href="index.html#referanslar" onclick="closeMobileMenu()">Referanslar</a>
+  <a href="blog.html" target="_blank" rel="noopener" onclick="closeMobileMenu()">Blog</a>
+  <a href="sdm-kalibra.html" onclick="closeMobileMenu()" class="m-sdm">SDM Kalibra</a>
+  <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20SDM%20Kalibra%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="m-cta" onclick="closeMobileMenu()">Randevu Al</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo"><img class="logo-img" src="LOGO-2.svg" alt="Diyetisyen Ayşegül Tekeli"></a>
+  <div class="nav-r">
+    <ul class="nav-links">
+      <li><a href="index.html#hakkimda">Hakkımda</a></li>
+      <li><a href="hizmetler.html" target="_blank" rel="noopener">Hizmetler</a></li>
+      <li><a href="tarifler.html" target="_blank" rel="noopener">Tarifler</a></li>
+      <li><a href="bmi.html" target="_blank" rel="noopener">BKİ</a></li>
+      <li><a href="index.html#referanslar">Referanslar</a></li>
+      <li><a href="blog.html" target="_blank" rel="noopener">Blog</a></li>
+      <li><a href="sdm-kalibra.html" class="nav-sdm-link active">SDM Kalibra</a></li>
+    </ul>
+    <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20randevu%20almak%20istiyorum." target="_blank" rel="noopener" class="nav-cta">Randevu Al</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="sdm-hero">
+  <div class="sdm-hero-deco"></div>
+  <div class="sdm-hero-deco2"></div>
+  <div class="sdm-hero-deco3"></div>
+  <div class="sdm-hero-content">
+    <div class="sdm-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Yetkili SDM Kalibra Satıcısı · Mersin
+    </div>
+    <h1>İtalyan Bilimi ile<br><em>Kalıcı Kilo Kaybı</em><br>Artık Mümkün</h1>
+    <p class="sdm-hero-desc">SDM Kalibra, 20 yılı aşkın deneyimi ve 200'den fazla bilimsel yayınla desteklenen İtalyan kökenli bir Çok Düşük Kalorili Ketojenik Diyet programıdır. Kas kütlenizi koruyarak, hızlı ve kalıcı biçimde yağ yakmanızı sağlar.</p>
+    <div class="sdm-hero-actions">
+      <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20SDM%20Kalibra%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="btn-primary">
+        Bilgi Al &amp; Randevu
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#nedir" class="btn-outline">Programı Keşfet</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="sdm-stats">
+  <div class="sdm-stat-item">
+    <div class="num">20+</div>
+    <div class="lbl">Yıllık Program<br>Deneyimi</div>
+  </div>
+  <div class="sdm-stat-item">
+    <div class="num">200+</div>
+    <div class="lbl">Bilimsel<br>Yayın</div>
+  </div>
+  <div class="sdm-stat-item">
+    <div class="num">3</div>
+    <div class="lbl">Aşamalı<br>Program</div>
+  </div>
+  <div class="sdm-stat-item">
+    <div class="num">2–3.</div>
+    <div class="lbl">Günden İtibaren<br>Yağ Yakımı</div>
+  </div>
+</div>
+
+<!-- NEDIR -->
+<section id="nedir" class="sdm-intro">
+  <div class="sdm-intro-grid">
+    <div class="sdm-intro-text">
+      <div class="section-eyebrow">
+        <div class="ey-line"></div>
+        <span class="ey-text">Program Hakkında</span>
+      </div>
+      <h2 class="section-title">SDM Kalibra <em>Nedir?</em></h2>
+      <p>SDM Kalibra, İtalyan endokrinoloji uzmanı Dr. Gilles Terracol tarafından geliştirilen, Çok Düşük Kalorili Ketojenik Diyet (VLCKD) ilkelerine dayanan profesyonel bir beslenme programıdır. İtalya merkezli bu program, Avrupa ve Türkiye dahil pek çok ülkede 20 yılı aşkın bir deneyimle uygulanmaktadır.</p>
+      <p>Geleneksel diyetlerden en kritik farkı şudur: SDM Kalibra, yüksek protein içeriği sayesinde diyet süresince kas kütlesini tam anlamıyla korur. Bu sayede metabolizma yavaşlamaz, cilt sarkmaz, selülit kötüleşmez. Vücut yalnızca yağ deposundan enerji alır; 2-3. günden itibaren yağ yakımı başlar ve ilk hafta içinde fark edilir bir değişim yaşanır.</p>
+      <p>Program kapsamındaki hazır ürünler — makarna, ekmek, çikolata, çorbalar, içecekler ve daha pek çok seçenek — gram tartmayı ya da ölçüm yapmayı gerektirmez. İtalyan kalitesi ve lezzetiyle hazırlanmış bu ürünler, günlük yaşamı büyük ölçüde kolaylaştırır.</p>
+    </div>
+    <div>
+      <div class="sdm-feature-pill">
+        <div class="pill-title">Kas Dokusunu Korur</div>
+        <div class="pill-text">Yüksek protein formülasyonu sayesinde yağ yakarken kas kütleniz korunur. Metabolizma hızınız düşmez, cilt sarkmaz.</div>
+      </div>
+      <div class="sdm-feature-pill">
+        <div class="pill-title">Ketojenik Etki</div>
+        <div class="pill-text">Vücut 2-3. günden itibaren yağ yakımına (ketogenez) geçer. İlk hafta içinde gözle görülür sonuçlar elde edilir.</div>
+      </div>
+      <div class="sdm-feature-pill">
+        <div class="pill-title">Hazır &amp; Pratik Ürünler</div>
+        <div class="pill-text">Tartı ya da ölçüm gerekmez. Önceden porsiyonlanmış İtalyan kalitesinde ürünlerle program günlük hayata kolayca entegre olur.</div>
+      </div>
+      <div class="sdm-feature-pill">
+        <div class="pill-title">Bilimsel Altyapı</div>
+        <div class="pill-text">200'den fazla hakemli bilimsel yayınla desteklenen program, medikal düzeyde güvenlik ve etkinlik sunar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="sdm-benefits">
+  <div style="text-align:center;max-width:600px;margin:0 auto">
+    <div class="section-eyebrow centered">
+      <div class="ey-line"></div>
+      <span class="ey-text">Neden SDM Kalibra?</span>
+    </div>
+    <h2 class="section-title">Danışanların <em>Fark Ettiği</em><br>6 Temel Avantaj</h2>
+  </div>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>Kas Kütlesi Korunur</h3>
+      <p>Klasik diyetlerde yaşanan kas kaybı SDM Kalibra'da görülmez. Yüksek protein formülasyonu vücudun enerjisini yalnızca yağ deposundan almasını sağlar. Cilt sarkması ve selülit kötüleşmesi riski ortadan kalkar.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>Hızlı &amp; Görünür Sonuç</h3>
+      <p>2-3. günden itibaren başlayan ketogenez süreciyle ilk hafta içinde kilo kaybı fark edilir hale gelir. Erken görülen sonuçlar motivasyonu canlı tutar ve sürece devam etmeyi kolaylaştırır.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3>Tartı &amp; Ölçüm Yok</h3>
+      <p>Önceden porsiyonlanmış ürünler sayesinde gram hesabı yapmanıza gerek kalmaz. Program yoğun iş ve aile hayatına kolaylıkla uyum sağlar; günlük rutininizi bozmaz.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <h3>Bilimsel Güvence</h3>
+      <p>200'den fazla hakemli bilimsel yayınla desteklenen program, medikal düzeyde etkinlik ve güvenlik kanıtına sahiptir. Rastgele bir diyet trendi değil, onlarca yıllık araştırmanın ürünüdür.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h3>Kişiselleştirilmiş Takip</h3>
+      <p>Program boyunca Dyt. Ayşegül Tekeli'nin bire bir rehberliğiyle ilerlersiniz. Sorularınız anında yanıtlanır, bireysel ihtiyaçlarınıza göre gerekli düzenlemeler hızla yapılır.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Kalıcı Sonuçlar</h3>
+      <p>3 aşamalı program yapısı; yalnızca kilo verdirmekle kalmaz, doğru beslenme alışkanlıklarını kalıcı hale getirir. Yo-yo etkisi önlenir; ulaşılan kilo, uzun yıllar korunur.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section class="sdm-phases">
+  <div class="sdm-phases-deco"></div>
+  <div class="phases-center">
+    <div class="section-eyebrow centered">
+      <div class="ey-line light"></div>
+      <span class="ey-text light">Program Yapısı</span>
+    </div>
+    <h2 class="section-title light">3 Aşamalı <em>SDM Kalibra</em> Protokolü</h2>
+  </div>
+  <div class="phases-grid">
+    <div class="phase-card">
+      <div class="phase-num">01</div>
+      <h3>Ketojenik Faz</h3>
+      <p>Vücudun enerji kaynağını yağa çeviren bu aşamada SDM Kalibra'nın özel protein ağırlıklı hazır ürünleri kullanılır. Ketogenez genellikle 2-3. günde başlar; açlık hissi ve yorgunluk gibi yan etkiler en aza indirilir. Hızlı ve motivasyon kırılmadan kilo kaybı yaşanır.</p>
+      <span class="phase-duration">2–3 Hafta</span>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">02</div>
+      <h3>Geçiş Fazı</h3>
+      <p>Birinci fazda tüketilmeyen besinler kademeli olarak diyete eklenir. Bu aşama metabolizmanın yeni ağırlığa alışmasını sağlar ve elde edilen kazanımları pekiştirir. Diyetisyen rehberliğinde gerçekleştirilen kontrollü geçiş, yo-yo etkisine karşı en önemli güvencedir.</p>
+      <span class="phase-duration">2–4 Hafta</span>
+    </div>
+    <div class="phase-card">
+      <div class="phase-num">03</div>
+      <h3>Koruma Fazı</h3>
+      <p>Uzun vadeli başarının temeli olan bu aşamada kişiye özel, yaşam tarzıyla uyumlu dengeli beslenme planı hayata geçirilir. Kilo kontrolü ve sağlıklı metabolizma işlevi ömür boyu sürdürülür. Program artık bir "diyet"ten çıkmış, kalıcı bir yaşam biçimine dönüşmüştür.</p>
+      <span class="phase-duration">Süregelen</span>
+    </div>
+  </div>
+</section>
+
+<!-- NEDEN AYSEGUL -->
+<section class="sdm-why">
+  <div style="max-width:600px">
+    <div class="section-eyebrow">
+      <div class="ey-line"></div>
+      <span class="ey-text">Neden Dyt. Ayşegül Tekeli ile?</span>
+    </div>
+    <h2 class="section-title">Yetkili Satıcı, <em>Kişisel Destek</em></h2>
+  </div>
+  <div class="sdm-why-grid">
+    <div class="sdm-why-points">
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="why-point-text">
+          <h4>Yetkili SDM Kalibra Satıcısı</h4>
+          <p>Dyt. Ayşegül Tekeli, SDM Kalibra'nın Mersin'deki yetkili satıcılarından biridir. Orijinal ve güvenilir ürünlere doğrudan erişim sağlar; taklit veya kalitesiz ürün riski tamamen ortadan kalkar.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="why-point-text">
+          <h4>Bire Bir Takip ve Danışmanlık</h4>
+          <p>Program boyunca her aşamada ulaşılabilirsiniz. Haftalık değerlendirmeler, anlık sorular ve kişiye özel uyarlamalarla süreci en verimli biçimde yönetirsiniz.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="why-point-text">
+          <h4>Kapsamlı Beslenme Değerlendirmesi</h4>
+          <p>Programa başlamadan önce ayrıntılı bir sağlık ve beslenme analizi yapılır. SDM Kalibra, bireysel ihtiyaçlarınıza ve hedeflerinize göre kişiselleştirilir.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="why-point-text">
+          <h4>Uzman Diyetisyen Desteği Şart</h4>
+          <p>SDM Kalibra ürünleri tek başına sonuç vermez; etkin ve güvenli bir sonuç için profesyonel diyetisyen desteği zorunludur. Bu desteği Dyt. Ayşegül Tekeli ile eksiksiz alırsınız.</p>
+        </div>
+      </div>
+    </div>
+    <div class="sdm-cta-box">
+      <h3>Hedef Kilonuza<br>Birlikte Ulaşalım</h3>
+      <p>SDM Kalibra programı hakkında merak ettiklerinizi sormak veya randevu almak için WhatsApp üzerinden hemen ulaşın. İlk görüşme ücretsizdir.</p>
+      <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20SDM%20Kalibra%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="btn-wa">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp ile Randevu Al
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sdm-cta-sec">
+  <h2>Değişim Bir <em>Karar</em> ile Başlar</h2>
+  <p>SDM Kalibra ile kilo vermek; acı çekmek, sürekli aç kalmak ya da yo-yo etkisiyle boğuşmak anlamına gelmiyor. Bilimsel altyapısı ve kişiselleştirilmiş yaklaşımıyla bu program, hayatınızı gerçekten değiştiriyor.</p>
+  <a href="https://wa.me/905392705074?text=Merhaba%20Dyt.%20Ay%C5%9Feg%C3%BCl%20Han%C4%B1m%2C%20SDM%20Kalibra%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="btn-wa">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Hemen Başlayın
+  </a>
+</section>
+
+<footer>
+  <div class="f-logo">Diyetisyen Ayşegül Tekeli</div>
+  <ul class="f-links">
+    <li><a href="index.html#hakkimda">Hakkımda</a></li>
+    <li><a href="hizmetler.html">Hizmetler</a></li>
+    <li><a href="sdm-kalibra.html">SDM Kalibra</a></li>
+    <li><a href="index.html#randevu">Randevu</a></li>
+  </ul>
+  <div class="f-copy">© 2025 Diyetisyen Ayşegül Tekeli</div>
+</footer>
+
+<script>
+const dot=document.getElementById('dot'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.classList.add('hovered');dot.classList.add('hovered')});
+  el.addEventListener('mouseleave',()=>{ring.classList.remove('hovered');dot.classList.remove('hovered')});
+});
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>50)});
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+  document.body.style.overflow=document.getElementById('mobileMenu').classList.contains('open')?'hidden':'';
+}
+function closeMobileMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow='';
+}
+</script>
+</body>
+</html>

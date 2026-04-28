@@ -24,6 +24,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(245,240,235,.95);backdrop-
 .nav-back{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--espresso-light);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s,gap .2s}
 .nav-back:hover{color:var(--sage);gap:.8rem}
 .nav-back svg{width:14px;height:14px}
+.nav-sdm-link{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;border:1.5px solid var(--sage);color:var(--sage);padding:.42rem 1rem;border-radius:2px;text-decoration:none;font-weight:500;transition:all .2s}
+.nav-sdm-link:hover{background:var(--sage);color:#fff}
 
 /* HEADER */
 .page-header{padding:5rem 6% 3rem;text-align:center}
@@ -136,10 +138,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(245,240,235,.95);backdrop-
 
 <nav>
   <a href="index.html" class="logo"><img class="logo-img" src="LOGO-2.svg" alt="Diyetisyen Ayşegül Tekeli"></a>
-  <a href="index.html" class="nav-back">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Ana Sayfa
-  </a>
+  <div style="display:flex;align-items:center;gap:1.5rem">
+    <a href="sdm-kalibra.html" target="_blank" rel="noopener" class="nav-sdm-link">SDM Kalibra</a>
+    <a href="index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Ana Sayfa
+    </a>
+  </div>
 </nav>
 
 <div class="page-header">
