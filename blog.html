@@ -100,6 +100,14 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
 
+/* CARD ACCENT (görsel — resim yerine) */
+.card-accent{height:5px;background:var(--sage-pale);transition:background .4s}
+.card:hover .card-accent{background:var(--sage-light)}
+
+/* BLOG STATES */
+.blog-state{grid-column:1/-1;padding:5rem 1rem;text-align:center;font-size:.9rem;color:var(--espresso-light);font-weight:300;line-height:1.8}
+.blog-error{color:#C0392B}
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .blog-grid{grid-template-columns:1fr 1fr}
@@ -217,278 +225,160 @@ footer{background:var(--espresso);padding:4rem 6%;display:grid;grid-template-col
   <div class="f-copy">© 2025 Diyetisyen Ayşegül Tekeli</div>
 </footer>
 
-<script>
-const articles = [
-  {
-    tag: 'Beslenme',
-    title: 'Ara öğünlerin metabolizmaya etkisi nedir?',
-    excerpt: 'Doğru zamanda yapılan küçük öğünler açlık krizlerini önler ve yağ yakımını destekler. Peki nasıl planlanmalı?',
-    meta: ['6 dk okuma', 'Mayıs 2025', 'Dyt. Ayşegül Tekeli'],
-    img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=900&auto=format&fit=crop&q=80',
-    body: `
-      <p>Ara öğün kavramı, beslenme dünyasında en çok tartışılan konulardan biridir. "Az ye, sık ye" ilkesini pek çok kişi duymuştur; ancak bu ilkenin metabolizma üzerindeki gerçek etkisi sandığınızdan çok daha nüanslıdır. Önce şunu netleştirelim: ara öğün, ana öğün kalitesini bozacak düzeyde kalabalık bir tabak değil, vücudun enerji dengesini korumak için stratejik olarak zamanlanmış küçük bir beslenme molasıdır.</p>
+<script type="module">
+import { supabase } from './src/lib/supabase.js'
 
-      <h3>Kan Şekerini Dengede Tutar</h3>
-      <p>Ana öğünler arasındaki uzun açlık aralıkları, kan şekerinin düşmesine neden olur. Bu düşüş; yorgunluk, konsantrasyon kaybı ve ani açlık krizleri (hipoglisemi belirtileri) şeklinde kendini gösterir. Özellikle öğle ile akşam yemeği arasındaki 5–6 saatlik boşluk, çoğu insanın kontrolsüz atıştırmaya yöneldiği tehlikeli bir zaman dilimidir. Doğru planlanmış bir ara öğün, kan şekerini sabit tutarak bu kısır döngüyü kırar ve akşam yemeğinde aşırı yeme eğilimini azaltır.</p>
+let posts = []
 
-      <h3>Metabolizmayı Aktif Tutar</h3>
-      <p>Uzun açlık dönemlerinde vücut "tasarruf moduna" geçerek yağ yakmak yerine bazal metabolizma hızını düşürür. Bu adaptasyon, özellikle diyet yapan bireylerde kilo vermeyi zorlaştırır. Düzenli aralıklarla yapılan küçük öğünler, termik etki (besinleri sindirmek için harcanan enerji) yoluyla metabolizmayı aktif tutar. Protein içeren ara öğünler bu etkiyi daha da güçlendirir; çünkü proteinin termik etkisi karbonhidrat ve yağdan belirgin biçimde yüksektir.</p>
+// ── Yardımcılar ──────────────────────────────────────────────────
+function esc(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+}
 
-      <h3>İdeal Ara Öğün Nasıl Olmalı?</h3>
-      <ul>
-        <li>150–250 kalori aralığında kalmalı; bu değeri aşan ara öğünler ana öğün yerine geçmeye başlar</li>
-        <li>Protein + kompleks karbonhidrat kombinasyonu içermeli: yoğurt + meyve, peynir + tam tahıllı kraker gibi</li>
-        <li>Basit şeker ve rafine karbonhidrat içeren gıdalardan kaçınılmalı; bunlar kan şekerini hızlı yükseltip hızlı düşürür</li>
-        <li>Ana öğünden 2–3 saat sonra, bir sonraki ana öğünden en az 1.5 saat önce yapılmalı</li>
-        <li>Porsiyonlar ölçülmeli; "sağlıklı" etiketli gıdalar da fazla tüketildiğinde kalori dengesini bozar</li>
-      </ul>
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric' })
+}
 
-      <h3>Herkes İçin Geçerli Bir Kural Mı?</h3>
-      <p>Hayır. Aralıklı oruç (intermittent fasting) uygulayan bireylerde ara öğün, yeme penceresini daraltarak uygulamanın mantığını bozmaktadır. İnsülin direnci veya reaktif hipoglisemisi olan kişilerde ise ara öğün planlaması daha titiz bir yaklaşım gerektirir. Tip 2 diyabet hastalarında ve bazı hormonal bozukluklarda ara öğün zamanlaması, ilaç dozajı ile birlikte değerlendirilmelidir.</p>
+// Düz metni HTML paragraflara çevirir
+function toHtml(text) {
+  if (!text) return '<p></p>'
+  return text.trim().split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('')
+}
 
-      <p>Son olarak şunu hatırlatmak isterim: beslenme evrensel bir reçete değildir. Metabolizmanız, alışkanlıklarınız, günlük aktivite düzeyiniz ve hedefleriniz bir arada değerlendirildiğinde size en uygun plan ortaya çıkar. Bu nedenle "herkes böyle yapıyor" mantığıyla değil, bireysel ihtiyaçlarınıza göre şekillendirilmiş bir program ile ilerlemenizi öneririm.</p>
-    `
-  },
-  {
-    tag: 'Sağlık',
-    title: 'Günde kaç litre su içmeliyiz?',
-    excerpt: '"8 bardak" kuralı herkese uygulanamaz. Vücut ağırlığınıza ve yaşam tarzınıza göre doğru miktarı hesaplayın.',
-    meta: ['5 dk okuma', 'Nisan 2025', 'Dyt. Ayşegül Tekeli'],
-    img: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?w=900&auto=format&fit=crop&q=80',
-    body: `
-      <p>"Günde 8 bardak su için" tavsiyesini hepimiz defalarca duymuşuzdur. Bu kural, 1945 yılında ABD Gıda ve Beslenme Kurulu'nun yayımladığı bir rehberden gelmekte olup o dönemdeki bilimsel veriler ışığında oldukça genel bir hesaplamayla önerilmiştir. Bugün biliyoruz ki gerçek su ihtiyacı kişiden kişiye, mevsimden mevsime ve yaşam tarzından yaşam tarzına önemli ölçüde değişmektedir.</p>
+// İçerikten kısa özet üretir
+function excerpt(text, len = 150) {
+  const plain = (text || '').replace(/\n/g,' ').trim()
+  return plain.length > len ? plain.slice(0, len).trimEnd() + '...' : plain
+}
 
-      <h3>Su İhtiyacı Nasıl Hesaplanır?</h3>
-      <p>Güncel beslenme rehberlerinde önerilen en pratik formül şudur: <strong>vücut ağırlığı (kg) × 30–35 ml</strong>. Örneğin 65 kg ağırlığındaki bir birey için günlük hedef 1.95 – 2.27 litre, 80 kg için ise 2.4 – 2.8 litredir. Bu değer yalnızca su içmeyi değil, yiyeceklerden alınan sıvıyı da kapsar; ancak içecek olarak tüketilen suyun günlük toplamın %70–80'ini oluşturması önerilir.</p>
+// ── State gösterimi ───────────────────────────────────────────────
+function showLoading() {
+  document.getElementById('blogGrid').innerHTML =
+    '<div class="blog-state">Yazılar yükleniyor...</div>'
+}
 
-      <h3>Su İhtiyacını Artıran Faktörler</h3>
-      <ul>
-        <li><strong>Fiziksel aktivite:</strong> 1 saatlik orta düzey egzersiz için 400–600 ml ek sıvı gerekir</li>
-        <li><strong>Sıcak ve nemli hava:</strong> terleme ile sıvı kaybı önemli ölçüde artar</li>
-        <li><strong>Gebelik ve emzirme:</strong> gebelerde +300 ml, emziren annelerde +700 ml ek alım önerilir</li>
-        <li><strong>Ateş, ishal, kusma:</strong> akut hastalıklarda elektrolit kaybı da söz konusu olduğundan sadece su yeterli olmayabilir</li>
-        <li><strong>Yüksek protein veya lif tüketimi:</strong> her ikisi de böbreklerin daha fazla suya ihtiyaç duymasına yol açar</li>
-        <li><strong>Kafein ve alkol:</strong> diüretik etkileri nedeniyle su kaybını artırırlar</li>
-      </ul>
+function showEmpty() {
+  document.getElementById('blogGrid').innerHTML =
+    '<div class="blog-state">Henüz blog yazısı eklenmemiş.</div>'
+}
 
-      <h3>Yeterli Su İçtiğinizi Nasıl Anlarsınız?</h3>
-      <p>En pratik ve güvenilir yöntem idrar rengidir. Açık sarı veya limon sarısı renk yeterli hidrasyonu; koyu sarı, amber veya kahverengi ton ise yetersiz sıvı alımını gösterir. İlk sabah idrarının koyu olması normaldir; gün içinde renk açılmalıdır. Sürekli renksiz idrar ise aşırı sıvı tüketimine (hipervolemi) işaret edebilir.</p>
+function showError() {
+  document.getElementById('blogGrid').innerHTML =
+    '<div class="blog-state blog-error">Blog yazıları yüklenemedi.</div>'
+}
 
-      <h3>Sadece Su mu Sayılır?</h3>
-      <p>Günlük sıvı dengesine katkıda bulunan kaynaklar yalnızca su değildir. Şekersiz bitki çayları, sade soda, süt ve sebze/meyvelerdeki su içeriği de dengeye dahildir. Salatalık, domates, karpuz ve çilek gibi besinler %90–95 oranında su içerir. Öte yandan şekerli içecekler, hazır meyve suları ve gazlı içecekler su yerine geçmez; aksine ek şeker yükü ve kalori getirirler.</p>
-
-      <p>Pratik öneri: Her sabah uyanır uyanmaz 1–2 bardak ılık su içmeyi alışkanlık haline getirin. Gün içinde masanızın üzerinde görünür bir su şişesi bulundurun; görsel hatırlatıcılar tüketimi anlamlı biçimde artırır. Susadığınızda değil, susamadan önce içmeye başlayın; çünkü susuzluk hissi zaten hafif dehidrasyon başladığının sinyalidir.</p>
-    `
-  },
-  {
-    tag: 'Diyet',
-    title: 'Sağlıklı yağlar: avokado, zeytinyağı ve ceviz',
-    excerpt: 'Yıllarca "düşman" ilan edilen yağlar aslında vazgeçilmez. Doğru yağ seçimi hem kalbi hem metabolizmayı koruyor.',
-    meta: ['7 dk okuma', 'Mart 2025', 'Dyt. Ayşegül Tekeli'],
-    img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=900&auto=format&fit=crop&q=80',
-    body: `
-      <p>Onlarca yıl boyunca "yağ = kilo" denklemiyle şartlandırıldık. 1980'lerin düşük yağlı diyet furyası, toplumu yağdan uzaklaştırırken işlenmiş karbonhidrat ve şeker tüketimini patlatıverdi. Bugün bilim bize şunu söylüyor: sorun yağın kendisi değil, yanlış yağ seçimidir. Vücudumuzun işlevsel kalabilmesi için yağa gerçekten ihtiyacı var; soru yağı tamamen kesmek değil, hangisini ne kadar tüketmek gerektiğini bilmek.</p>
-
-      <h3>Neden Sağlıklı Yağlara İhtiyacımız Var?</h3>
-      <p>Yağda çözünen A, D, E ve K vitaminleri, yağ olmadan bağırsaktan emilimi gerçekleştiremez. Hücre zarlarının yapı taşı olan fosfolipitler yağ asitlerinden oluşur. Östrojen ve testosteron başta olmak üzere pek çok hormon kolesterol bazlı yapıdan sentezlenir. Ayrıca sağlıklı yağlar sinir iletimini destekler, beyin dokusunun yaklaşık %60'ını oluşturur ve uzun süreli tokluk hissi sağlayarak aşırı yeme eğilimini azaltır.</p>
-
-      <h3>Avokado</h3>
-      <p>Tekli doymamış yağ asitleri (oleik asit) bakımından meyve dünyasında eşsiz bir yere sahip olan avokado, LDL (kötü) kolesterolü düşürürken HDL (iyi) kolesterolü korur. 100 gram avokado yaklaşık 15 gram yağ, 7 gram lif, bol miktarda potasyum, folat ve E vitamini içerir. Sabah kahvaltısında tam tahıllı ekmek üzerine ezilmiş avokado ile bir yumurta, saatlerce tok tutacak dengeli bir öğün sunar. Avokadoyu ısıya maruz bırakmaktan kaçının; yağ asitleri yüksek ısıda okside olabilir.</p>
-
-      <h3>Zeytinyağı</h3>
-      <p>Akdeniz diyetinin en simgesel bileşeni olan zeytinyağı; oleik asit ve oleokantal gibi antiinflamatuar polifenoller açısından zengindir. Uzun vadeli çalışmalar, düzenli zeytinyağı tüketiminin kardiyovasküler hastalık ve tip 2 diyabet riskini azalttığını ortaya koymaktadır. Ancak dikkat edilmesi gereken kritik bir nokta vardır: soğuk sıkım (extra virgin) zeytinyağı tercih edin ve kızartmak yerine salata sosu, sebze üzerine gezme veya hafif sotede kullanın. Rafine zeytinyağları polifenol içeriğini büyük ölçüde yitirir.</p>
-
-      <h3>Ceviz</h3>
-      <p>Bitkisel besinler arasında omega-3 yağ asidi (ALA) bakımından en zengin kaynak olan ceviz, beyin sağlığını, kardiyovasküler sistemi ve bağırsak mikrobiyotasını destekler. Günde 5–7 adet (yaklaşık 28–30 gram) tüketim yeterlidir; bu miktar günlük ALA ihtiyacının büyük bölümünü karşılar. Fazlası kalori dengesini bozabilir; çünkü 30 gram ceviz yaklaşık 185 kalori içerir. Tuzsuz ve kavrulmamış formlarını tercih edin.</p>
-
-      <h3>Dikkat Edilmesi Gerekenler</h3>
-      <ul>
-        <li>Sağlıklı yağlar da kalori yoğundur: 1 gram yağ = 9 kalori; bu nedenle porsiyona dikkat edin</li>
-        <li>Trans yağlardan (margarin, hazır bisküvi, endüstriyel kızartmalar) kesinlikle uzak durun</li>
-        <li>Doymuş yağ tüketimini sınırlandırın; kırmızı et ve tam yağlı süt ürünlerini ölçülü tüketin</li>
-        <li>Omega-6 ve omega-3 dengesine dikkat edin; batı diyeti omega-6'yı fazla içerir, bu da iltihaplanmayı artırabilir</li>
-      </ul>
-
-      <p>Beslenme planınıza her gün küçük miktarlarda çeşitli sağlıklı yağ eklemek, uzun vadede hem metabolizmanızı hem de genel sağlığınızı olumlu yönde dönüştürecektir. Yağdan korkmayın; onu akıllıca seçin.</p>
-    `
-  },
-  {
-    tag: 'Spor & Beslenme',
-    title: 'Egzersiz öncesi ve sonrası ne yenmeli?',
-    excerpt: 'Antrenman zamanlaması kadar beslenme zamanlaması da önemlidir. Performansı ve toparlanmayı artıran öğün stratejileri.',
-    meta: ['6 dk okuma', 'Şubat 2025', 'Dyt. Ayşegül Tekeli'],
-    img: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=900&auto=format&fit=crop&q=80',
-    body: `
-      <p>Spor salonuna gitmeden önce ne yiyeceğinizi ya da egzersiz sonrasında nasıl besleneceğinizi merak ediyorsanız yalnız değilsiniz. Antrenman zamanlaması kadar beslenme zamanlaması da performansınızı, enerji düzeyinizi ve toparlanma hızınızı doğrudan etkiler. Bu yazıda kanıta dayalı önerilerle egzersiz beslenmesini ele alıyoruz.</p>
-
-      <h3>Egzersiz Öncesi Beslenme</h3>
-      <p>Temel amaç, antrenmana yeterli enerjiyle girmektir. Büyük bir öğünü egzersizden 2–3 saat önce tüketmek idealdir. Bu öğün; orta miktarda kompleks karbonhidrat, orta miktarda protein ve düşük yağ içermelidir. Yağ ve lif sindirimi yavaşlatarak antrenmanda mide rahatsızlığı yaratabilir.</p>
-      <ul>
-        <li><strong>2–3 saat önce:</strong> Pirinç + tavuk göğsü + buharda sebze; tam tahıllı makarna + ton balığı</li>
-        <li><strong>30–60 dakika önce:</strong> Muz + az yağlı yoğurt; tam tahıllı tost + fıstık ezmesi</li>
-        <li><strong>Çok az zaman varsa:</strong> Bir avuç hurma veya muz yeterli; ağır bir öğün midede oturmaktan iyidir</li>
-      </ul>
-
-      <h3>Egzersiz Sırasında</h3>
-      <p>60 dakikadan kısa süreli orta yoğunluklu egzersizlerde ekstra besin almaya gerek yoktur; su yeterlidir. 60 dakikayı aşan ve yüksek yoğunluklu antrenmanlarda ise 30–45 dakikada bir 30–60 gram karbonhidrat (spor içeceği, muz, enerji jeli) tüketilebilir. Elektrolit kaybı önemliyse hafif tuzlu içecekler tercih edilebilir.</p>
-
-      <h3>Egzersiz Sonrası Beslenme</h3>
-      <p>Antrenman bittikten sonraki ilk 30–60 dakika "anabolik pencere" olarak adlandırılır. Bu süre zarfında kas glikojeni yenilenmesi ve protein sentezi için vücut en hazır durumundadır. İdeal egzersiz sonrası öğün 3:1 veya 4:1 karbonhidrat:protein oranını hedefler.</p>
-      <ul>
-        <li>Yoğurt + meyve + bir tutam granola</li>
-        <li>Yumurta + tam tahıllı ekmek + domates</li>
-        <li>Tavuklu kinoa salatası</li>
-        <li>Proteinli smoothie: süt + muz + yulaf + bir kaşık fıstık ezmesi</li>
-      </ul>
-
-      <h3>Protein Ne Kadar Olmalı?</h3>
-      <p>Egzersiz sonrası öğünde 20–40 gram protein yeterlidir. Bu miktarın üzerinde alınan protein, kas sentezine ek katkı sağlamaz ve fazlası enerji olarak kullanılır ya da depolanır. Günlük toplam protein alımı ise aktif bireyler için vücut ağırlığının kilogramı başına 1.4–2.0 gram olarak önerilmektedir.</p>
-
-      <p>Her vücut farklı tepkiler verebilir; bu nedenle yukarıdaki önerileri birer başlangıç noktası olarak değerlendirin ve kendi gözlemlerinizle şekillendirin. Kronik yorgunluk, performans düşüklüğü veya toparlanma güçlüğü yaşıyorsanız bir diyetisyen ile bireysel beslenme programı oluşturmanız en doğru adım olacaktır.</p>
-    `
-  },
-  {
-    tag: 'Psikoloji & Beslenme',
-    title: 'Duygusal yeme: farkında olmadan neden yeriz?',
-    excerpt: 'Açlık hissi olmadan yemek yeme dürtüsünün ardındaki mekanizmayı anlamak, sağlıklı beslenmenin ilk adımıdır.',
-    meta: ['7 dk okuma', 'Ocak 2025', 'Dyt. Ayşegül Tekeli'],
-    img: 'https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?w=900&auto=format&fit=crop&q=80',
-    body: `
-      <p>Uzun bir günün sonunda kanepeye kurulup elinizdeki çikolata kutusunun dibini gördüğünüzde fizyolojik bir açlık mı hissettiniz, yoksa başka bir şey mi sizi oraya yöneltti? Duygusal yeme, besinleri fizyolojik ihtiyaçlar için değil, duyguları yönetmek amacıyla kullanmaktır. Ve bu, sandığınızdan çok daha yaygın bir örüntüdür.</p>
-
-      <h3>Duygusal Yemeyi Tetikleyen Nedir?</h3>
-      <p>Stres, kaygı, can sıkıntısı, yalnızlık ve üzüntü; duygusal yemeyi tetikleyen en sık duygusal durumlardır. Biyokimyasal açıdan bakıldığında, kronik stres kortizol düzeyini yükseltir. Kortizol hem iştahı artırır hem de özellikle şeker ve yüksek yağlı besinlere olan yönelimi güçlendirir. Beyin, bu tür besinlerin tüketiminden kısa süreli dopamin salınımı sağlar; bu da ödül döngüsünü pekiştirir.</p>
-
-      <h3>Fizyolojik Açlık mı, Duygusal Açlık mı?</h3>
-      <p>İkisini ayırt etmek, çözümün ilk adımıdır. Fizyolojik açlık yavaş yavaş gelir, mide sinyalleri (guruldama, boşluk hissi) ile kendini gösterir, çeşitli yiyeceklerle giderilebilir ve yemek sonrası tatmin hisseder. Duygusal açlık ise aniden ortaya çıkar, genellikle belirli bir yiyeceği (tatlı, cips gibi) hedefler, yemek sırasında bilinçdışı devam eder ve bitince çoğunlukla suçluluk duygusuyla sonuçlanır.</p>
-
-      <h3>Pratik Baş Etme Stratejileri</h3>
-      <ul>
-        <li><strong>Durakla ve sorgula:</strong> Bir şey yemek istediğinizde 5 saniye bekleyin ve "gerçekten aç mıyım?" diye sorun</li>
-        <li><strong>Duyguyu tanımlayın:</strong> "Şu an ne hissediyorum?" sorusuna yazılı yanıt vermek farkındalığı artırır</li>
-        <li><strong>Alternatif davranışlar geliştirin:</strong> Stres anında kısa bir yürüyüş, nefes egzersizi veya bir dost araması duyguyu yönetmenin farklı yollarıdır</li>
-        <li><strong>Tetikleyicileri ortadan kaldırın:</strong> Evde sürekli tüketeceğiniz atıştırmalıkları bulundurmayın</li>
-        <li><strong>Düzenli yemek düzeni:</strong> Atlanan öğünler kan şekerini düşürür ve duygusal yeme riskini artırır</li>
-      </ul>
-
-      <h3>Ne Zaman Profesyonel Destek Alınmalı?</h3>
-      <p>Duygusal yeme, bilinçli farkındalıkla yönetilebilecek bir alışkanlık olabilir; ancak tıkınma yeme bozukluğu (BED), bulimia veya gece yeme sendromu gibi tablolara dönüşmüşse psikolog ve diyetisyen iş birliği ile yürütülen çok disiplinli bir yaklaşım şarttır. Beslenme sorunlarının yalnızca "daha az yemek" ile çözülebileceği varsayımı, altta yatan psikolojik dinamikleri görmezden gelir.</p>
-
-      <p>Kendinize karşı sabırlı olun. Duygusal yeme uzun yıllar içinde şekillenmiş bir örüntüdür ve değişmesi zaman alır. Yargılamak yerine merak etmek, bu yolculuğun en güçlü aracıdır.</p>
-    `
-  },
-  {
-    tag: 'Bağırsak Sağlığı',
-    title: 'Probiyotik ve prebiyotik: bağırsak floranıza rehber',
-    excerpt: 'Bağırsak mikrobiyotası yalnızca sindirimle ilgili değil; bağışıklık, ruh hali ve metabolizmayı da doğrudan etkiliyor.',
-    meta: ['8 dk okuma', 'Aralık 2024', 'Dyt. Ayşegül Tekeli'],
-    img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=900&auto=format&fit=crop&q=80',
-    body: `
-      <p>Son on yılda bilim insanlarının bağırsak mikrobiyotası üzerine yaptığı araştırmalar, sindirim sisteminin çok ötesinde bir tablo ortaya koydu. Trilyonlarca bakteri, mantar ve virüsten oluşan bu ekosistem; bağışıklık yanıtını, ruh halini, uyku kalitesini ve hatta kilo yönetimini etkilemektedir. "İkinci beyin" olarak da anılan bağırsak, artık bütüncül sağlığın merkezinde yer alıyor.</p>
-
-      <h3>Probiyotik Nedir?</h3>
-      <p>Probiyotikler, yeterli miktarda tüketildiğinde konakçıya sağlık faydası sağlayan canlı mikroorganizmalardır. En iyi bilinen türleri Lactobacillus ve Bifidobacterium cinsleridir. Probiyotikler bağırsak florasını zenginleştirir, zararlı bakterilerin çoğalmasını baskılar, bağırsak bariyerini güçlendirir ve bağışıklık hücrelerini uyarır.</p>
-      <ul>
-        <li><strong>Fermente süt ürünleri:</strong> yoğurt, kefir, ayran (pastörize edilmemiş olanlar canlı kültür içerir)</li>
-        <li><strong>Fermente sebzeler:</strong> ev yapımı turşu, lahana turşusu (sirkesiz, tuzlu salamura ile hazırlanan)</li>
-        <li><strong>Kombucha:</strong> fermente çay; şeker içeriğine dikkat edin</li>
-        <li><strong>Miso ve tempeh:</strong> fermente soya ürünleri; Türk mutfağına giderek giriyor</li>
-      </ul>
-
-      <h3>Prebiyotik Nedir?</h3>
-      <p>Prebiyotikler sindirilemeyen lif bileşikleridir; faydalı bağırsak bakterileri için besin kaynağı işlevi görürler. Probiyotikler olmadan prebiyotikler fazla işe yaramaz; ikisi birlikte "sinbiyotik" etkiyi oluşturur. En önemli prebiyotik kaynakları arasında sarımsak, soğan, pırasa, kuşkonmaz, muz (hafif olgunlaşmamış), yulaf, arpa ve hindiba kökü sayılabilir.</p>
-
-      <h3>Bağırsak Florasını Bozan Faktörler</h3>
-      <ul>
-        <li>Uzun süreli antibiyotik kullanımı (florayı yeniden dengelemek için tedavi sonrası probiyotik desteği önerilebilir)</li>
-        <li>İşlenmiş gıda ağırlıklı, lif açısından fakir beslenme</li>
-        <li>Kronik stres (kortizol bağırsak geçirgenliğini artırır)</li>
-        <li>Uyku düzensizliği (sirkadiyen ritim mikrobiyota çeşitliliğini etkiler)</li>
-        <li>Aşırı alkol tüketimi ve sigara kullanımı</li>
-      </ul>
-
-      <h3>Probiyotik Takviye Almak Gerekiyor mu?</h3>
-      <p>Sağlıklı bir bireyin günlük fermente gıda tüketimi ve yeterli lif alımı, flora için genellikle yeterlidir. Ancak irritabl bağırsak sendromu (IBS), antibiyotik sonrası flora bozukluğu veya inflamatuar bağırsak hastalıklarında klinik kanıtı olan spesifik suşlar içeren probiyotik takviyeler yararlı olabilir. Her probiyotik her koşulda işe yaramaz; suş seçimi ve doz önemlidir.</p>
-
-      <p>Bağırsak sağlığı tek bir besin veya takviye ile sağlanamaz. Renk renk sebze ve meyve, tam tahıllar, baklagiller, fermente gıdalar ve yeterli su içeren çeşitli bir diyet; floranızı besleyecek en iyi temeldir. Ve bu temeli oluştururken sabırlı olun: mikrobiyota değişimi haftalar, hatta aylar gerektirmektedir.</p>
-    `
-  }
-];
-
+// ── Grid render ───────────────────────────────────────────────────
 function renderGrid() {
-  const grid = document.getElementById('blogGrid');
-  grid.innerHTML = articles.map((a, i) => `
+  const grid = document.getElementById('blogGrid')
+  grid.innerHTML = posts.map((p, i) => `
     <div class="card reveal" onclick="showDetail(${i})">
-      <img class="card-img" src="${a.img}" alt="${a.title}" loading="lazy">
+      <div class="card-accent"></div>
       <div class="card-body">
-        <span class="card-tag">${a.tag}</span>
-        <div class="card-title">${a.title}</div>
-        <p class="card-excerpt">${a.excerpt}</p>
+        <span class="card-tag">Blog</span>
+        <div class="card-title">${esc(p.title)}</div>
+        <p class="card-excerpt">${esc(excerpt(p.content))}</p>
         <div class="card-meta">
-          ${a.meta.map(m => `<span>${m}</span>`).join('<span>·</span>')}
+          <span>${fmtDate(p.created_at)}</span>
+          <span>·</span>
+          <span>Dyt. Ayşegül Tekeli</span>
         </div>
         <span class="card-btn">Devamını Oku <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
       </div>
     </div>
-  `).join('');
-  observeReveal();
+  `).join('')
+
+  observeReveal()
+
+  document.querySelectorAll('.card').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.classList.add('hovered'); dot.classList.add('hovered') })
+    el.addEventListener('mouseleave', () => { ring.classList.remove('hovered'); dot.classList.remove('hovered') })
+  })
 }
 
-function showDetail(i) {
-  const a = articles[i];
-  document.getElementById('dTag').textContent = a.tag;
-  document.getElementById('dTitle').textContent = a.title;
-  document.getElementById('dMeta').innerHTML = a.meta.map(m => `<span>${m}</span>`).join('<span style="opacity:.4">·</span>');
-  document.getElementById('dImg').src = a.img;
-  document.getElementById('dImg').alt = a.title;
-  document.getElementById('dBody').innerHTML = a.body;
+// ── Detail view ───────────────────────────────────────────────────
+window.showDetail = function(i) {
+  const p = posts[i]
+  document.getElementById('dTag').textContent   = 'Blog'
+  document.getElementById('dTitle').textContent = p.title
+  document.getElementById('dMeta').innerHTML    =
+    `<span>${fmtDate(p.created_at)}</span><span style="opacity:.4">·</span><span>Dyt. Ayşegül Tekeli</span>`
+  document.getElementById('dImg').style.display = 'none'
+  document.getElementById('dBody').innerHTML    = toHtml(p.content)
 
-  document.getElementById('listView').style.display = 'none';
-  document.getElementById('pageHeader').style.display = 'none';
-  document.getElementById('detailView').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('listView').style.display   = 'none'
+  document.getElementById('pageHeader').style.display = 'none'
+  document.getElementById('detailView').style.display = 'block'
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-function showList() {
-  document.getElementById('detailView').style.display = 'none';
-  document.getElementById('listView').style.display = 'block';
-  document.getElementById('pageHeader').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+window.showList = function() {
+  document.getElementById('detailView').style.display = 'none'
+  document.getElementById('listView').style.display   = 'block'
+  document.getElementById('pageHeader').style.display = 'block'
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+// ── Scroll reveal ─────────────────────────────────────────────────
 function observeReveal() {
   const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target) } })
+  }, { threshold: 0.12 })
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el))
 }
 
-renderGrid();
+// ── Cursor ────────────────────────────────────────────────────────
+const dot  = document.getElementById('dot')
+const ring = document.getElementById('ring')
+let mx = 0, my = 0, rx = 0, ry = 0
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY
+  dot.style.left = mx + 'px'; dot.style.top = my + 'px'
+})
+;(function animRing() {
+  rx += (mx - rx) * .13; ry += (my - ry) * .13
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px'
+  requestAnimationFrame(animRing)
+})()
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.classList.add('hovered'); dot.classList.add('hovered') })
+  el.addEventListener('mouseleave', () => { ring.classList.remove('hovered'); dot.classList.remove('hovered') })
+})
 
-// Cursor
-const dot = document.getElementById('dot');
-const ring = document.getElementById('ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; });
-(function animRing() { rx += (mx - rx) * .13; ry += (my - ry) * .13; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animRing); })();
-document.querySelectorAll('a,button,.card').forEach(el => {
-  el.addEventListener('mouseenter', () => { ring.classList.add('hovered'); dot.classList.add('hovered'); });
-  el.addEventListener('mouseleave', () => { ring.classList.remove('hovered'); dot.classList.remove('hovered'); });
-});
+// ── Mobile menu ───────────────────────────────────────────────────
+window.toggleMenu = function() {
+  const menu = document.getElementById('mobileMenu')
+  const btn  = document.getElementById('hamburger')
+  menu.classList.toggle('open')
+  btn.classList.toggle('open')
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : ''
+}
+window.closeMobileMenu = function() {
+  document.getElementById('mobileMenu').classList.remove('open')
+  document.getElementById('hamburger').classList.remove('open')
+  document.body.style.overflow = ''
+}
 
-// Mobile menu
-function toggleMenu() {
-  const menu = document.getElementById('mobileMenu');
-  const btn = document.getElementById('hamburger');
-  menu.classList.toggle('open');
-  btn.classList.toggle('open');
-  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+// ── Supabase'den yazıları çek ─────────────────────────────────────
+async function loadPosts() {
+  showLoading()
+
+  const { data, error } = await supabase
+    .from('posts')
+    .select('id, title, content, slug, created_at')
+    .eq('published', true)
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error('Blog yükleme hatası:', error)
+    showError()
+    return
+  }
+
+  posts = data || []
+  posts.length === 0 ? showEmpty() : renderGrid()
 }
-function closeMobileMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburger').classList.remove('open');
-  document.body.style.overflow = '';
-}
+
+loadPosts()
 </script>
 </body>
 </html>

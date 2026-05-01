@@ -1,0 +1,12 @@
+{
+  "name": "dyt-aysegul-website",
+  "version": "1.0.0",
+  "description": "Diyetisyen Ayşegül Tekeli kişisel websitesi",
+  "type": "module",
+  "scripts": {
+    "test:supabase": "node src/lib/supabase-test.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.105.1"
+  }
+}

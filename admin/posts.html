@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yazılar — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#6B8F64;--sage-pale:#DCE9DA;
+  --beige:#E8DDD0;--beige-light:#FAF8F5;--beige-mid:#F0E9E0;
+  --espresso:#2C1F14;--espresso-mid:#5A3E2B;--espresso-light:#8B6E56;
+  --white:#fff;--red:#C0392B;--red-bg:#FDECEA;
+}
+body{font-family:'Inter',sans-serif;background:var(--beige-light);color:var(--espresso);min-height:100vh;opacity:0;transition:opacity .2s}
+body.ready{opacity:1}
+
+/* NAV */
+nav{background:var(--espresso);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100}
+.nav-l{display:flex;align-items:center;gap:1.8rem}
+.nav-logo{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-logo img{height:32px;width:auto;filter:brightness(0) invert(1) opacity(.85)}
+.nav-logo span{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);font-weight:500}
+.nav-links{display:flex;gap:1.2rem;list-style:none}
+.nav-links a{font-size:.72rem;letter-spacing:.08em;color:rgba(255,255,255,.5);text-decoration:none;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-r{display:flex;align-items:center;gap:1rem}
+.nav-user{font-size:.72rem;color:rgba(255,255,255,.4);display:none}
+@media(min-width:500px){.nav-user{display:block}}
+.btn-logout{
+  font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.6);padding:.35rem .8rem;border-radius:3px;
+  cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s
+}
+.btn-logout:hover{background:rgba(255,255,255,.15);color:#fff}
+
+/* CONTENT */
+.wrap{max-width:900px;margin:0 auto;padding:2.5rem 1.5rem}
+
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2rem}
+.page-head-l .eyebrow{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.eyebrow-line{width:22px;height:1px;background:var(--sage)}
+.eyebrow-text{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);font-weight:500}
+h1{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300}
+
+.btn-new{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.6rem 1.2rem;background:var(--espresso);color:var(--white);
+  border-radius:3px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;transition:background .2s
+}
+.btn-new:hover{background:var(--sage)}
+
+/* TABLE */
+.table-wrap{background:var(--white);border:1px solid var(--beige);border-radius:4px;overflow:hidden}
+
+.table-toolbar{
+  padding:1rem 1.2rem;border-bottom:1px solid var(--beige-mid);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem
+}
+.search{
+  padding:.5rem .8rem;border:1px solid var(--beige);border-radius:3px;
+  font-family:'Inter',sans-serif;font-size:.82rem;color:var(--espresso);
+  background:var(--beige-light);outline:none;width:220px;transition:border-color .2s
+}
+.search:focus{border-color:var(--sage)}
+.count{font-size:.72rem;color:var(--espresso-light)}
+
+table{width:100%;border-collapse:collapse}
+th{
+  font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--espresso-light);font-weight:500;
+  padding:.75rem 1.2rem;text-align:left;
+  background:var(--beige-light);border-bottom:1px solid var(--beige)
+}
+td{padding:.85rem 1.2rem;border-bottom:1px solid var(--beige-mid);vertical-align:middle;font-size:.84rem}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--beige-light)}
+
+.td-title{font-weight:400;color:var(--espresso);max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-slug{font-size:.74rem;color:var(--espresso-light);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-date{font-size:.74rem;color:var(--espresso-light);white-space:nowrap}
+
+.badge{display:inline-block;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .55rem;border-radius:2px;font-weight:500}
+.badge-pub{background:var(--sage-pale);color:var(--sage)}
+.badge-draft{background:var(--beige-mid);color:var(--espresso-light)}
+
+.actions{display:flex;gap:.5rem}
+.btn-edit,.btn-del{
+  padding:.35rem .7rem;border-radius:3px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  font-family:'Inter',sans-serif;cursor:pointer;border:1px solid;transition:all .2s
+}
+.btn-edit{background:transparent;border-color:var(--beige);color:var(--espresso-mid)}
+.btn-edit:hover{border-color:var(--sage);color:var(--sage)}
+.btn-del{background:transparent;border-color:transparent;color:var(--espresso-light)}
+.btn-del:hover{border-color:rgba(192,57,43,.3);color:var(--red);background:var(--red-bg)}
+
+/* EMPTY / LOADING */
+.state{padding:3rem 1.5rem;text-align:center;color:var(--espresso-light);font-size:.85rem;font-weight:300}
+.state svg{display:block;margin:0 auto 1rem;opacity:.25}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:1.5rem;right:1.5rem;
+  background:var(--espresso);color:#fff;
+  padding:.7rem 1.1rem;border-radius:3px;
+  font-size:.78rem;font-weight:400;
+  opacity:0;transform:translateY(8px);
+  transition:all .3s;pointer-events:none;z-index:999
+}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.ok{background:var(--sage)}
+.toast.err{background:var(--red)}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .td-slug,.td-date,.th-slug,.th-date{display:none}
+  .td-title,.search{max-width:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-l">
+    <a class="nav-logo" href="dashboard.html">
+      <img src="../LOGO-2.svg" alt="Logo">
+      <span>Admin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="posts.html" class="active">Yazılar</a></li>
+    </ul>
+  </div>
+  <div class="nav-r">
+    <span class="nav-user" id="navUser"></span>
+    <button class="btn-logout" id="logoutBtn">Çıkış</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="page-head">
+    <div class="page-head-l">
+      <div class="eyebrow"><span class="eyebrow-line"></span><span class="eyebrow-text">İçerik</span></div>
+      <h1>Blog Yazıları</h1>
+    </div>
+    <a href="posts-new.html" class="btn-new">+ Yeni Yazı</a>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-toolbar">
+      <input class="search" id="search" type="text" placeholder="Yazı ara...">
+      <span class="count" id="countLabel"></span>
+    </div>
+    <div id="tableArea">
+      <div class="state">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Yükleniyor...
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { supabase } from '../src/lib/supabase.js'
+
+// Auth kontrol
+const { data: { session } } = await supabase.auth.getSession()
+if (!session) { location.replace('login.html'); }
+
+document.getElementById('navUser').textContent = session.user.email
+document.body.classList.add('ready')
+
+let allPosts = []
+
+async function loadPosts() {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('id, title, slug, published, created_at')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    document.getElementById('tableArea').innerHTML =
+      `<div class="state"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Veriler yüklenemedi: ${error.message}</div>`
+    return
+  }
+
+  allPosts = data || []
+  render(allPosts)
+}
+
+function render(posts) {
+  document.getElementById('countLabel').textContent = `${posts.length} yazı`
+
+  if (posts.length === 0) {
+    document.getElementById('tableArea').innerHTML =
+      `<div class="state"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Henüz yazı yok.</div>`
+    return
+  }
+
+  const rows = posts.map(p => `
+    <tr data-id="${p.id}">
+      <td>
+        <div class="td-title">${escape(p.title)}</div>
+        <div class="td-slug">${p.slug || '—'}</div>
+      </td>
+      <td class="th-slug td-slug" style="display:table-cell">${p.slug || '—'}</td>
+      <td><span class="badge ${p.published ? 'badge-pub' : 'badge-draft'}">${p.published ? 'Yayında' : 'Taslak'}</span></td>
+      <td class="th-date td-date">${fmtDate(p.created_at)}</td>
+      <td>
+        <div class="actions">
+          <button class="btn-edit" onclick="editPost('${p.id}')">Düzenle</button>
+          <button class="btn-del"  onclick="deletePost('${p.id}', '${escape(p.title)}')">Sil</button>
+        </div>
+      </td>
+    </tr>
+  `).join('')
+
+  document.getElementById('tableArea').innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Başlık</th>
+          <th class="th-slug">Slug</th>
+          <th>Durum</th>
+          <th class="th-date">Tarih</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`
+}
+
+function fmtDate(iso) {
+  return new Date(iso).toLocaleDateString('tr-TR', { day:'2-digit', month:'short', year:'numeric' })
+}
+
+function escape(str) {
+  return (str || '').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')
+}
+
+// Global handlers (onclick kullanımı için)
+window.editPost = id => location.assign(`posts-new.html?id=${id}`)
+
+window.deletePost = async (id, title) => {
+  if (!confirm(`"${title}" yazısını silmek istediğinize emin misiniz?`)) return
+  const { error } = await supabase.from('posts').delete().eq('id', id)
+  if (error) { toast('Silinemedi: ' + error.message, 'err'); return }
+  toast('Yazı silindi.', 'ok')
+  allPosts = allPosts.filter(p => p.id !== id)
+  render(filterPosts(document.getElementById('search').value))
+}
+
+// Arama
+document.getElementById('search').addEventListener('input', e => {
+  render(filterPosts(e.target.value))
+})
+
+function filterPosts(q) {
+  const s = q.toLowerCase()
+  return allPosts.filter(p =>
+    (p.title || '').toLowerCase().includes(s) ||
+    (p.slug  || '').toLowerCase().includes(s)
+  )
+}
+
+// Toast
+function toast(msg, type = 'ok') {
+  const el = document.getElementById('toast')
+  el.textContent = msg
+  el.className = `toast show ${type}`
+  setTimeout(() => el.classList.remove('show'), 2800)
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await supabase.auth.signOut()
+  location.replace('login.html')
+})
+
+loadPosts()
+</script>
+</body>
+</html>
